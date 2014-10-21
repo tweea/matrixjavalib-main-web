@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<!-- $Id: pom.xml 975 2014-04-17 10:05:51Z tweea@263.net $ -->
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- 基本属性 - 项目属性 -->
+	<artifactId>mxlib-web</artifactId>
+	<version>1.7.2-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<!-- 基本属性 - 属性 -->
+
+	<!-- 基本属性 - 项目关系 -->
+	<parent>
+		<groupId>net.sf.matrixjavalib</groupId>
+		<artifactId>genesis</artifactId>
+		<version>33</version>
+	</parent>
+	<dependencies>
+		<!-- compile -->
+		<dependency>
+			<groupId>net.sf.matrixjavalib</groupId>
+			<artifactId>mxlib-common</artifactId>
+			<version>1.7.1</version>
+			<scope>compile</scope>
+		</dependency>
+		<!-- provided -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- runtime -->
+		<!-- test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>4.0.3.RELEASE</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<!-- 构建设置 -->
+
+	<!-- 项目信息 -->
+	<name>Matrix :: Web 类库</name>
+	<description>与 Web 相关的实用工具等。</description>
+	<inceptionYear>2008</inceptionYear>
+
+	<!-- 构建环境 -->
+	<issueManagement>
+		<system>Google Code</system>
+		<url>http://code.google.com/p/matrixjavalib/issues/list</url>
+	</issueManagement>
+	<scm>
+		<connection>scm:svn:http://matrixjavalib.googlecode.com/svn/main/trunk/lib-web</connection>
+		<developerConnection>scm:svn:https://matrixjavalib.googlecode.com/svn/main/trunk/lib-web</developerConnection>
+		<url>http://code.google.com/p/matrixjavalib/source/browse/main/trunk/lib-web</url>
+	</scm>
+</project>
