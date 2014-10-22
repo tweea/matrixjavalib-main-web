@@ -1,5 +1,4 @@
 /*
- * $Id: RequestDumpFilter.java 907 2014-01-23 03:01:22Z tweea@263.net $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

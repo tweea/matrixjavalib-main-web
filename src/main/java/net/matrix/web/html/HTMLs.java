@@ -1,5 +1,4 @@
 /*
- * $Id: HTMLs.java 897 2014-01-22 11:58:01Z tweea@263.net $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

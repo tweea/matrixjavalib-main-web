@@ -1,5 +1,4 @@
 /*
- * $Id: HTTPs.java 902 2014-01-23 01:46:10Z tweea@263.net $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */

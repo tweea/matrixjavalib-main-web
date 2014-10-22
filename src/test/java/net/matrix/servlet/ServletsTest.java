@@ -1,5 +1,4 @@
 /*
- * $Id: ServletsTest.java 800 2013-12-26 06:22:14Z tweea@263.net $
  * Copyright(C) 2008 Matrix
  * All right reserved.
  */
