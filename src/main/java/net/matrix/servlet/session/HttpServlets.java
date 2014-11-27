@@ -263,7 +263,7 @@ public final class HttpServlets {
 			prefix = "";
 		}
 		Enumeration paramNames = request.getParameterNames();
-		Map<String, Object> params = new TreeMap<String, Object>();
+		Map<String, Object> params = new TreeMap<>();
 		for (String paramName : new IterableEnumeration<String>(paramNames)) {
 			if ("".equals(prefix) || paramName.startsWith(prefix)) {
 				String unprefixed = paramName.substring(prefix.length());

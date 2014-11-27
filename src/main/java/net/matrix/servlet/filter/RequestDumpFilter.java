@@ -139,7 +139,7 @@ public class RequestDumpFilter
 
 	private void dumpRequest(final HttpServletRequest request, final PrintWriter writer) {
 		// Object Properties
-		Map<String, String> requestProperties = new LinkedHashMap<String, String>();
+		Map<String, String> requestProperties = new LinkedHashMap<>();
 		requestProperties.put("Local", request.getLocalAddr() + ":" + request.getLocalPort());
 		requestProperties.put("Remote", request.getRemoteAddr() + ":" + request.getRemotePort());
 		requestProperties.put("RequestURI", request.getRequestURI());
@@ -154,7 +154,7 @@ public class RequestDumpFilter
 		dumpStringMap(writer, "Request: " + request, requestProperties);
 
 		// request headers
-		Map<String, String> requestHeaders = new LinkedHashMap<String, String>();
+		Map<String, String> requestHeaders = new LinkedHashMap<>();
 		List<String> names = Collections.list(request.getHeaderNames());
 		Collections.sort(names);
 		for (String name : names) {
@@ -164,7 +164,7 @@ public class RequestDumpFilter
 		dumpStringMap(writer, "Request Headers", requestHeaders);
 
 		// request parameters
-		Map<String, String> requestParameters = new LinkedHashMap<String, String>();
+		Map<String, String> requestParameters = new LinkedHashMap<>();
 		names = Collections.list(request.getParameterNames());
 		Collections.sort(names);
 		for (String name : names) {
@@ -178,7 +178,7 @@ public class RequestDumpFilter
 		dumpStringMap(writer, "Request Parameters", requestParameters);
 
 		// request attributes
-		Map<String, Object> requestAttributes = new LinkedHashMap<String, Object>();
+		Map<String, Object> requestAttributes = new LinkedHashMap<>();
 		names = Collections.list(request.getAttributeNames());
 		Collections.sort(names);
 		for (String name : names) {
@@ -189,7 +189,7 @@ public class RequestDumpFilter
 	}
 
 	private void dumpCookie(final Cookie cookie, final PrintWriter writer) {
-		Map<String, String> cookieProperties = new LinkedHashMap<String, String>();
+		Map<String, String> cookieProperties = new LinkedHashMap<>();
 		cookieProperties.put("Name", cookie.getName());
 		cookieProperties.put("Value", cookie.getValue());
 		cookieProperties.put("Domain", cookie.getDomain());
@@ -209,7 +209,7 @@ public class RequestDumpFilter
 			writer.println(session);
 
 			// session attributes
-			Map<String, Object> sessionAttributes = new LinkedHashMap<String, Object>();
+			Map<String, Object> sessionAttributes = new LinkedHashMap<>();
 			List<String> names = Collections.list(session.getAttributeNames());
 			Collections.sort(names);
 			for (String name : names) {
@@ -306,7 +306,7 @@ public class RequestDumpFilter
 	}
 
 	private void dumpObjectMap(final PrintWriter writer, final String title, final Map<String, Object> objMap) {
-		Map<String, ClassAndToString> map = new LinkedHashMap<String, ClassAndToString>();
+		Map<String, ClassAndToString> map = new LinkedHashMap<>();
 		for (Map.Entry<String, Object> item : objMap.entrySet()) {
 			map.put(item.getKey(), new ClassAndToString(item.getValue()));
 		}
