@@ -89,7 +89,7 @@ public final class Servlets {
 	 */
 	public static boolean checkIfModifiedSince(final HttpServletRequest request, final HttpServletResponse response, final long lastModified) {
 		long ifModifiedSince = request.getDateHeader(HttpHeaders.IF_MODIFIED_SINCE);
-		if ((ifModifiedSince != -1) && (lastModified < ifModifiedSince + 1000)) {
+		if (ifModifiedSince != -1 && lastModified < ifModifiedSince + 1000) {
 			response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
 			return false;
 		}
