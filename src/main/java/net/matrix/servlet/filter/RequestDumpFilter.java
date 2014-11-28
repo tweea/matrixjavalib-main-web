@@ -35,7 +35,7 @@ public class RequestDumpFilter
 	implements Filter {
 	private static final Logger LOG = LoggerFactory.getLogger(RequestDumpFilter.class);
 
-	private boolean enabled = false;
+	private boolean enabled;
 
 	private boolean hasRequesst = true;
 

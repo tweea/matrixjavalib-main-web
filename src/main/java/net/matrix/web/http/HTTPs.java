@@ -33,8 +33,8 @@ public final class HTTPs {
 		StringBuilder queryStringBuilder = new StringBuilder();
 
 		for (Map.Entry<String, Object> entry : params.entrySet()) {
-			queryStringBuilder.append(prefix).append(entry.getKey()).append("=").append(entry.getValue());
-			queryStringBuilder.append("&");
+			queryStringBuilder.append(prefix).append(entry.getKey()).append('=').append(entry.getValue());
+			queryStringBuilder.append('&');
 		}
 		if (queryStringBuilder.length() > 0) {
 			queryStringBuilder.setLength(queryStringBuilder.length() - 1);

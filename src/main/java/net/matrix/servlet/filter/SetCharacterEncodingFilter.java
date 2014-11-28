@@ -43,7 +43,7 @@ public class SetCharacterEncodingFilter
 	 * The default character encoding to set for requests that pass through this
 	 * filter.
 	 */
-	protected String encoding = null;
+	protected String encoding;
 
 	/**
 	 * Should a character encoding specified by the client be ignored?

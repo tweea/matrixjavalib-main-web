@@ -137,10 +137,10 @@ public class PagingInfo {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(super.toString()).append("{");
+		sb.append(super.toString()).append('{');
 		sb.append("key=").append(key).append(",url=").append(url);
 		sb.append(",total=").append(total).append(",pageIndex=").append(pageIndex);
-		sb.append(",pageSize=").append(pageSize).append("}");
+		sb.append(",pageSize=").append(pageSize).append('}');
 		return sb.toString();
 	}
 }
