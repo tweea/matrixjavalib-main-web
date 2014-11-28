@@ -6,7 +6,7 @@ package net.matrix.web.http;
 
 import java.util.Map;
 
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 import com.google.common.collect.Maps;
@@ -19,17 +19,17 @@ public class HTTPsTest {
 		params.put("age", "1");
 
 		String queryString = HTTPs.encodeParameterStringWithPrefix(params, "search_");
-		Assert.assertEquals("search_name=foo&search_age=1", queryString);
+		Assertions.assertThat(queryString).isEqualTo("search_name=foo&search_age=1");
 
 		// data type is not String
 		params.clear();
 		params.put("name", "foo");
 		params.put("age", 1);
 		queryString = HTTPs.encodeParameterStringWithPrefix(params, "search_");
-		Assert.assertEquals("search_name=foo&search_age=1", queryString);
+		Assertions.assertThat(queryString).isEqualTo("search_name=foo&search_age=1");
 
 		// prefix is empty
 		queryString = HTTPs.encodeParameterStringWithPrefix(params, "");
-		Assert.assertEquals("name=foo&age=1", queryString);
+		Assertions.assertThat(queryString).isEqualTo("name=foo&age=1");
 	}
 }

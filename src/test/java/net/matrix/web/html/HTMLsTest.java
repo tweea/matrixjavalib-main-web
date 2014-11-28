@@ -4,7 +4,7 @@
  */
 package net.matrix.web.html;
 
-import org.junit.Assert;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 public class HTMLsTest {
@@ -12,6 +12,6 @@ public class HTMLsTest {
 	public void fitToLength() {
 		String xx = "abc";
 		String yy = "abc&nbsp;&nbsp;";
-		Assert.assertEquals(yy, HTMLs.fitToLength(xx, 5));
+		Assertions.assertThat(HTMLs.fitToLength(xx, 5)).isEqualTo(yy);
 	}
 }
