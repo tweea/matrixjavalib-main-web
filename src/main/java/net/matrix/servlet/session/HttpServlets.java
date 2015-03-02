@@ -6,6 +6,7 @@ package net.matrix.servlet.session;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.TreeMap;
@@ -13,6 +14,8 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import net.matrix.text.DateFormatHelper;
 import net.matrix.util.IterableEnumeration;
@@ -166,12 +169,12 @@ public final class HttpServlets {
 	 * 
 	 * @param request
 	 *            请求
-	 * @param property
+	 * @param name
 	 *            参数名
 	 * @return 参数内容
 	 */
-	public static String getParameter(final HttpServletRequest request, final String property) {
-		String value = request.getParameter(property);
+	public static String getParameter(final HttpServletRequest request, final String name) {
+		String value = request.getParameter(name);
 		if (value == null) {
 			return "";
 		}
@@ -183,16 +186,16 @@ public final class HttpServlets {
 	 * 
 	 * @param request
 	 *            请求
-	 * @param property
+	 * @param name
 	 *            参数名
 	 * @return 参数内容
 	 */
-	public static int getIntParameter(final HttpServletRequest request, final String property) {
-		String value = request.getParameter(property);
+	public static Integer getIntegerParameter(final HttpServletRequest request, final String name) {
+		String value = request.getParameter(name);
 		if (StringUtils.isBlank(value)) {
-			return 0;
+			return null;
 		}
-		return Integer.parseInt(value);
+		return Integer.valueOf(value);
 	}
 
 	/**
@@ -200,16 +203,16 @@ public final class HttpServlets {
 	 * 
 	 * @param request
 	 *            请求
-	 * @param property
+	 * @param name
 	 *            参数名
 	 * @return 参数内容
 	 */
-	public static long getLongParameter(final HttpServletRequest request, final String property) {
-		String value = request.getParameter(property);
+	public static Long getLongParameter(final HttpServletRequest request, final String name) {
+		String value = request.getParameter(name);
 		if (StringUtils.isBlank(value)) {
-			return 0L;
+			return null;
 		}
-		return Long.parseLong(value);
+		return Long.valueOf(value);
 	}
 
 	/**
@@ -217,14 +220,14 @@ public final class HttpServlets {
 	 * 
 	 * @param request
 	 *            请求
-	 * @param property
+	 * @param name
 	 *            参数名
 	 * @return 参数内容
 	 */
-	public static BigDecimal getBigDecimalParameter(final HttpServletRequest request, final String property) {
-		String value = request.getParameter(property);
+	public static BigDecimal getBigDecimalParameter(final HttpServletRequest request, final String name) {
+		String value = request.getParameter(name);
 		if (StringUtils.isBlank(value)) {
-			return BigDecimal.ZERO;
+			return null;
 		}
 		return new BigDecimal(value);
 	}
@@ -234,18 +237,56 @@ public final class HttpServlets {
 	 * 
 	 * @param request
 	 *            请求
-	 * @param property
+	 * @param name
 	 *            参数名
 	 * @param format
 	 *            日期格式
 	 * @return 参数内容
 	 */
-	public static Calendar getCalendarParameter(final HttpServletRequest request, final String property, final String format) {
-		String value = request.getParameter(property);
+	public static Date getDateParameter(final HttpServletRequest request, final String name, final String format) {
+		String value = request.getParameter(name);
+		if (StringUtils.isBlank(value)) {
+			return null;
+		}
+		return new Date(DateTimeFormat.forPattern(format).parseMillis(value));
+	}
+
+	/**
+	 * 获取日期参数。
+	 * 
+	 * @param request
+	 *            请求
+	 * @param name
+	 *            参数名
+	 * @param format
+	 *            日期格式
+	 * @return 参数内容
+	 */
+	public static Calendar getCalendarParameter(final HttpServletRequest request, final String name, final String format) {
+		String value = request.getParameter(name);
 		if (StringUtils.isBlank(value)) {
 			return null;
 		}
 		return DateFormatHelper.parse(value, format);
+	}
+
+	/**
+	 * 获取日期参数。
+	 * 
+	 * @param request
+	 *            请求
+	 * @param name
+	 *            参数名
+	 * @param format
+	 *            日期格式
+	 * @return 参数内容
+	 */
+	public static DateTime getDateTimeParameter(final HttpServletRequest request, final String name, final String format) {
+		String value = request.getParameter(name);
+		if (StringUtils.isBlank(value)) {
+			return null;
+		}
+		return DateTimeFormat.forPattern(format).parseDateTime(value);
 	}
 
 	/**
