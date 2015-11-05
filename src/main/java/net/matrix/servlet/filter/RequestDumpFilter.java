@@ -47,12 +47,6 @@ public class RequestDumpFilter
 
 	private int maxLength = 100;
 
-	/**
-	 * Place this filter into service.
-	 * 
-	 * @param filterConfigIn
-	 *            The filter configuration object
-	 */
 	@Override
 	public void init(final FilterConfig filterConfigIn)
 		throws ServletException {
@@ -74,29 +68,11 @@ public class RequestDumpFilter
 		}
 	}
 
-	/**
-	 * Take this filter out of service.
-	 */
 	@Override
 	public void destroy() {
 		this.enabled = false;
 	}
 
-	/**
-	 * Select and set (if specified) the character encoding to be used to
-	 * interpret request parameters for this request.
-	 * 
-	 * @param request
-	 *            The servlet request we are processing
-	 * @param response
-	 *            The servlet response we are creating
-	 * @param chain
-	 *            The filter chain we are processing
-	 * @exception IOException
-	 *                if an input/output error occurs
-	 * @exception ServletException
-	 *                if a servlet error occurs
-	 */
 	@Override
 	public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
 		throws IOException, ServletException {

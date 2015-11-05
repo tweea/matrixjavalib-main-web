@@ -12,8 +12,6 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * 在会话中设置标示。
- * 
- * @since 2005.11.10
  */
 public final class Tokens {
 	/**
