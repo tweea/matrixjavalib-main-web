@@ -129,8 +129,8 @@ public final class Servlets {
 			} else {
 				StringTokenizer commaTokenizer = new StringTokenizer(headerValue, ",");
 				while (!conditionSatisfied && commaTokenizer.hasMoreTokens()) {
-					String currentToken = commaTokenizer.nextToken();
-					if (currentToken.trim().equals(etag)) {
+					String currentToken = commaTokenizer.nextToken().trim();
+					if (currentToken.equals(etag)) {
 						conditionSatisfied = true;
 					}
 				}
@@ -156,6 +156,6 @@ public final class Servlets {
 	public static void setFileDownloadHeader(final HttpServletResponse response, final String filename) {
 		// 中文文件名支持
 		String encodedFilename = Encodes.urlEncode(filename);
-		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFilename + "\"");
+		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFilename + '\"');
 	}
 }

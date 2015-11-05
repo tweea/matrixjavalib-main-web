@@ -53,7 +53,7 @@ public final class HTTPs {
 	 * @return 编码字符串
 	 */
 	public static String encodeHttpBasic(final String username, final String password) {
-		String encode = username + ":" + password;
+		String encode = username + ':' + password;
 		return "Basic " + Base64.encodeBase64String(encode.getBytes(Charsets.UTF_8));
 	}
 }

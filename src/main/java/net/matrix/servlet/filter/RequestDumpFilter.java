@@ -116,8 +116,8 @@ public class RequestDumpFilter
 	private void dumpRequest(final HttpServletRequest request, final PrintWriter writer) {
 		// Object Properties
 		Map<String, String> requestProperties = new LinkedHashMap<>();
-		requestProperties.put("Local", request.getLocalAddr() + ":" + request.getLocalPort());
-		requestProperties.put("Remote", request.getRemoteAddr() + ":" + request.getRemotePort());
+		requestProperties.put("Local", request.getLocalAddr() + ':' + request.getLocalPort());
+		requestProperties.put("Remote", request.getRemoteAddr() + ':' + request.getRemotePort());
 		requestProperties.put("RequestURI", request.getRequestURI());
 		requestProperties.put("PathInfo", request.getPathInfo());
 		requestProperties.put("QueryString", request.getQueryString());
@@ -390,7 +390,7 @@ public class RequestDumpFilter
 		}
 	}
 
-	private void printChar(final PrintWriter writer, final char ch, final int repeat) {
+	private static void printChar(final PrintWriter writer, final char ch, final int repeat) {
 		for (int i = 0; i < repeat; i++) {
 			writer.print(ch);
 		}
