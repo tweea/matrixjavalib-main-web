@@ -9,6 +9,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import net.matrix.lang.Objects2;
 
@@ -109,14 +110,10 @@ public final class Pages {
 	private static long getTotal(final HttpServletRequest request) {
 		long total;
 		String page = request.getParameter(TATAL_KEY);
-		if (StringUtils.isEmpty(page)) {
-			total = Objects2.isNull((Long) request.getAttribute(TATAL_KEY), 0L);
+		if (NumberUtils.isParsable(page)) {
+			total = Long.parseLong(page);
 		} else {
-			try {
-				total = Long.parseLong(page);
-			} catch (NumberFormatException e) {
-				total = 0L;
-			}
+			total = Objects2.isNull((Long) request.getAttribute(TATAL_KEY), 0L);
 		}
 		request.setAttribute(TATAL_KEY, total);
 		return total;
@@ -125,14 +122,10 @@ public final class Pages {
 	private static int getPageIndex(final HttpServletRequest request) {
 		int pageIndex;
 		String page = request.getParameter(INDEX_KEY);
-		if (StringUtils.isEmpty(page)) {
-			pageIndex = Objects2.isNull((Integer) request.getAttribute(INDEX_KEY), 0);
+		if (NumberUtils.isParsable(page)) {
+			pageIndex = Integer.parseInt(page);
 		} else {
-			try {
-				pageIndex = Integer.parseInt(page);
-			} catch (NumberFormatException e) {
-				pageIndex = 0;
-			}
+			pageIndex = Objects2.isNull((Integer) request.getAttribute(INDEX_KEY), 0);
 		}
 		request.setAttribute(INDEX_KEY, pageIndex);
 		return pageIndex;
@@ -144,14 +137,10 @@ public final class Pages {
 		}
 		int pageSize;
 		String page = request.getParameter(SIZE_KEY);
-		if (StringUtils.isEmpty(page)) {
-			pageSize = Objects2.isNull((Integer) request.getAttribute(SIZE_KEY), defaultValue);
+		if (NumberUtils.isParsable(page)) {
+			pageSize = Integer.parseInt(page);
 		} else {
-			try {
-				pageSize = Integer.parseInt(page);
-			} catch (NumberFormatException e) {
-				pageSize = 0;
-			}
+			pageSize = Objects2.isNull((Integer) request.getAttribute(SIZE_KEY), defaultValue);
 		}
 		request.setAttribute(SIZE_KEY, pageSize);
 		return pageSize;
