@@ -8,10 +8,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 public class HTMLsTest {
-	@Test
-	public void fitToLength() {
-		String xx = "abc";
-		String yy = "abc&nbsp;&nbsp;";
-		Assertions.assertThat(HTMLs.fitToLength(xx, 5)).isEqualTo(yy);
-	}
+    @Test
+    public void fitToLength() {
+        String xx = "abc";
+        String yy = "abc&nbsp;&nbsp;";
+        Assertions.assertThat(HTMLs.fitToLength(xx, 5)).isEqualTo(yy);
+    }
 }

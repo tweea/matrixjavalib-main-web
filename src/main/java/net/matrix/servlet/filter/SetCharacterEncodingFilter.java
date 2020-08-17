@@ -38,90 +38,90 @@ import javax.servlet.ServletResponse;
  * @author Craig McClanahan
  */
 public class SetCharacterEncodingFilter
-	implements Filter {
-	/**
-	 * The default character encoding to set for requests that pass through this
-	 * filter.
-	 */
-	protected String encoding;
+    implements Filter {
+    /**
+     * The default character encoding to set for requests that pass through this
+     * filter.
+     */
+    protected String encoding;
 
-	/**
-	 * Should a character encoding specified by the client be ignored?
-	 */
-	protected boolean ignore = true;
+    /**
+     * Should a character encoding specified by the client be ignored?
+     */
+    protected boolean ignore = true;
 
-	/**
-	 * Place this filter into service.
-	 * 
-	 * @param filterConfig
-	 *            The filter configuration object
-	 */
-	@Override
-	public void init(final FilterConfig filterConfig)
-		throws ServletException {
-		this.encoding = filterConfig.getInitParameter("encoding");
-		String value = filterConfig.getInitParameter("ignore");
-		if (value == null) {
-			this.ignore = true;
-		} else if ("true".equalsIgnoreCase(value)) {
-			this.ignore = true;
-		} else if ("yes".equalsIgnoreCase(value)) {
-			this.ignore = true;
-		} else {
-			this.ignore = false;
-		}
-	}
+    /**
+     * Place this filter into service.
+     * 
+     * @param filterConfig
+     *     The filter configuration object
+     */
+    @Override
+    public void init(final FilterConfig filterConfig)
+        throws ServletException {
+        this.encoding = filterConfig.getInitParameter("encoding");
+        String value = filterConfig.getInitParameter("ignore");
+        if (value == null) {
+            this.ignore = true;
+        } else if ("true".equalsIgnoreCase(value)) {
+            this.ignore = true;
+        } else if ("yes".equalsIgnoreCase(value)) {
+            this.ignore = true;
+        } else {
+            this.ignore = false;
+        }
+    }
 
-	/**
-	 * Take this filter out of service.
-	 */
-	@Override
-	public void destroy() {
-		this.encoding = null;
-	}
+    /**
+     * Take this filter out of service.
+     */
+    @Override
+    public void destroy() {
+        this.encoding = null;
+    }
 
-	/**
-	 * Select and set (if specified) the character encoding to be used to
-	 * interpret request parameters for this request.
-	 * 
-	 * @param request
-	 *            The servlet request we are processing
-	 * @param response
-	 *            The servlet response we are creating
-	 * @param chain
-	 *            The filter chain we are processing
-	 * @exception IOException
-	 *                if an input/output error occurs
-	 * @exception ServletException
-	 *                if a servlet error occurs
-	 */
-	@Override
-	public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
-		throws IOException, ServletException {
-		// Conditionally select and set the character encoding to be used
-		if (ignore || request.getCharacterEncoding() == null) {
-			String selectedEncoding = selectEncoding(request);
-			if (selectedEncoding != null) {
-				request.setCharacterEncoding(selectedEncoding);
-			}
-		}
+    /**
+     * Select and set (if specified) the character encoding to be used to
+     * interpret request parameters for this request.
+     * 
+     * @param request
+     *     The servlet request we are processing
+     * @param response
+     *     The servlet response we are creating
+     * @param chain
+     *     The filter chain we are processing
+     * @exception IOException
+     *     if an input/output error occurs
+     * @exception ServletException
+     *     if a servlet error occurs
+     */
+    @Override
+    public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
+        throws IOException, ServletException {
+        // Conditionally select and set the character encoding to be used
+        if (ignore || request.getCharacterEncoding() == null) {
+            String selectedEncoding = selectEncoding(request);
+            if (selectedEncoding != null) {
+                request.setCharacterEncoding(selectedEncoding);
+            }
+        }
 
-		// Pass control on to the next filter
-		chain.doFilter(request, response);
-	}
+        // Pass control on to the next filter
+        chain.doFilter(request, response);
+    }
 
-	/**
-	 * Select an appropriate character encoding to be used, based on the
-	 * characteristics of the current request and/or filter initialization
-	 * parameters. If no character encoding should be set, return <code>null</code>.
-	 * <p>
-	 * The default implementation unconditionally returns the value configured by the
-	 * <strong>encoding</strong> initialization parameter for this filter.
-	 * 
-	 * @param request
-	 *            The servlet request we are processing
-	 */
-	protected String selectEncoding(final ServletRequest request) {
-		return this.encoding;
-	}
+    /**
+     * Select an appropriate character encoding to be used, based on the
+     * characteristics of the current request and/or filter initialization
+     * parameters. If no character encoding should be set, return <code>null</code>.
+     * <p>
+     * The default implementation unconditionally returns the value configured by the
+     * <strong>encoding</strong> initialization parameter for this filter.
+     * 
+     * @param request
+     *     The servlet request we are processing
+     */
+    protected String selectEncoding(final ServletRequest request) {
+        return this.encoding;
+    }
 }

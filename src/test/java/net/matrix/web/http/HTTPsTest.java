@@ -12,24 +12,24 @@ import org.junit.Test;
 import com.google.common.collect.Maps;
 
 public class HTTPsTest {
-	@Test
-	public void encodeParameterStringWithPrefix() {
-		Map<String, Object> params = Maps.newLinkedHashMap();
-		params.put("name", "foo");
-		params.put("age", "1");
+    @Test
+    public void encodeParameterStringWithPrefix() {
+        Map<String, Object> params = Maps.newLinkedHashMap();
+        params.put("name", "foo");
+        params.put("age", "1");
 
-		String queryString = HTTPs.encodeParameterStringWithPrefix(params, "search_");
-		Assertions.assertThat(queryString).isEqualTo("search_name=foo&search_age=1");
+        String queryString = HTTPs.encodeParameterStringWithPrefix(params, "search_");
+        Assertions.assertThat(queryString).isEqualTo("search_name=foo&search_age=1");
 
-		// data type is not String
-		params.clear();
-		params.put("name", "foo");
-		params.put("age", 1);
-		queryString = HTTPs.encodeParameterStringWithPrefix(params, "search_");
-		Assertions.assertThat(queryString).isEqualTo("search_name=foo&search_age=1");
+        // data type is not String
+        params.clear();
+        params.put("name", "foo");
+        params.put("age", 1);
+        queryString = HTTPs.encodeParameterStringWithPrefix(params, "search_");
+        Assertions.assertThat(queryString).isEqualTo("search_name=foo&search_age=1");
 
-		// prefix is empty
-		queryString = HTTPs.encodeParameterStringWithPrefix(params, "");
-		Assertions.assertThat(queryString).isEqualTo("name=foo&age=1");
-	}
+        // prefix is empty
+        queryString = HTTPs.encodeParameterStringWithPrefix(params, "");
+        Assertions.assertThat(queryString).isEqualTo("name=foo&age=1");
+    }
 }
