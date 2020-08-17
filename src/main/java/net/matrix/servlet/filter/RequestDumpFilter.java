@@ -375,7 +375,7 @@ public class RequestDumpFilter
          * @param obj
          *     对象
          */
-        public ClassAndToString(final Object obj) {
+        ClassAndToString(final Object obj) {
             if (obj == null) {
                 this.clazz = "(n/a)";
                 this.toString = "(null)";

@@ -93,7 +93,7 @@ public class PagingInfo {
     }
 
     /**
-     * 设置总记录数
+     * 设置总记录数。
      * 
      * @param total
      *     总记录数
@@ -116,7 +116,7 @@ public class PagingInfo {
     }
 
     /**
-     * 设置每页记录数
+     * 设置每页记录数。
      * 
      * @param pageSize
      *     每页记录数
