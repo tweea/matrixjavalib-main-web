@@ -4,14 +4,16 @@
  */
 package net.matrix.web.html;
 
-import org.assertj.core.api.Assertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class HTMLsTest {
     @Test
-    public void fitToLength() {
+    public void testFitToLength() {
         String xx = "abc";
         String yy = "abc&nbsp;&nbsp;";
-        Assertions.assertThat(HTMLs.fitToLength(xx, 5)).isEqualTo(yy);
+
+        assertThat(HTMLs.fitToLength(xx, 5)).isEqualTo(yy);
     }
 }

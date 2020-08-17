@@ -365,9 +365,9 @@ public class RequestDumpFilter
     }
 
     private static final class ClassAndToString {
-        private final String clazz;
+        final String clazz;
 
-        private final String toString;
+        final String toString;
 
         /**
          * 根据对象信息构造。

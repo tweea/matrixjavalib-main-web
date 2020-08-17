@@ -6,30 +6,31 @@ package net.matrix.web.http;
 
 import java.util.Map;
 
-import org.assertj.core.api.Assertions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.Maps;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class HTTPsTest {
     @Test
-    public void encodeParameterStringWithPrefix() {
+    public void testEncodeParameterStringWithPrefix() {
         Map<String, Object> params = Maps.newLinkedHashMap();
         params.put("name", "foo");
         params.put("age", "1");
 
         String queryString = HTTPs.encodeParameterStringWithPrefix(params, "search_");
-        Assertions.assertThat(queryString).isEqualTo("search_name=foo&search_age=1");
+        assertThat(queryString).isEqualTo("search_name=foo&search_age=1");
 
         // data type is not String
         params.clear();
         params.put("name", "foo");
         params.put("age", 1);
         queryString = HTTPs.encodeParameterStringWithPrefix(params, "search_");
-        Assertions.assertThat(queryString).isEqualTo("search_name=foo&search_age=1");
+        assertThat(queryString).isEqualTo("search_name=foo&search_age=1");
 
         // prefix is empty
         queryString = HTTPs.encodeParameterStringWithPrefix(params, "");
-        Assertions.assertThat(queryString).isEqualTo("name=foo&age=1");
+        assertThat(queryString).isEqualTo("name=foo&age=1");
     }
 }

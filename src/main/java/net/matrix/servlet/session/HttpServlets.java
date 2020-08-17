@@ -267,7 +267,7 @@ public final class HttpServlets {
         if (StringUtils.isBlank(value)) {
             return null;
         }
-        return DateFormatHelper.parse(value, format);
+        return DateFormatHelper.parseCalendar(value, format);
     }
 
     /**
