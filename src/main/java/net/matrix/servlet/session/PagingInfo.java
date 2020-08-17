@@ -39,7 +39,7 @@ public class PagingInfo {
     private long totalPage;
 
     /**
-     * 构造空对象。
+     * 构造空实例。
      */
     public PagingInfo() {
         this("", "", 0, 0, 1);

@@ -11,7 +11,7 @@ import org.apache.commons.codec.binary.Base64;
 import com.google.common.base.Charsets;
 
 /**
- * HTTP 工具类。
+ * HTTP 工具。
  */
 public final class HTTPs {
     /**

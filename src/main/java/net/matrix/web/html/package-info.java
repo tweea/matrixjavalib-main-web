@@ -3,6 +3,6 @@
  * 保留所有权利。
  */
 /**
- * 与 Web HTML 相关的东西。
+ * HTML 相关工具。
  */
 package net.matrix.web.html;

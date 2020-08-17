@@ -91,11 +91,11 @@ public final class HttpServlets {
     }
 
     /**
-     * 获取消息内容。
+     * 获取错误内容。
      * 
      * @param request
      *     请求
-     * @return 消息内容
+     * @return 错误内容
      */
     public static String getError(final HttpServletRequest request) {
         StringBuilder sb = (StringBuilder) request.getAttribute(ERROR_KEY);
@@ -248,7 +248,7 @@ public final class HttpServlets {
         if (StringUtils.isBlank(value)) {
             return null;
         }
-        return new Date(DateTimeFormat.forPattern(format).parseMillis(value));
+        return DateFormatHelper.parseDate(value, format);
     }
 
     /**

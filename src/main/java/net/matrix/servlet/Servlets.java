@@ -14,7 +14,7 @@ import com.google.common.net.HttpHeaders;
 import net.matrix.util.Encodes;
 
 /**
- * Servlet 工具类。
+ * Servlet 工具。
  */
 public final class Servlets {
     /**
@@ -102,7 +102,7 @@ public final class Servlets {
      * @param response
      *     响应
      * @param etag
-     *     内容的ETag
+     *     内容的 ETag
      */
     public static void setEtag(final HttpServletResponse response, final String etag) {
         response.setHeader(HttpHeaders.ETAG, etag);
@@ -117,7 +117,7 @@ public final class Servlets {
      * @param response
      *     响应
      * @param etag
-     *     内容的ETag
+     *     内容的 ETag
      * @return 是否已失效
      */
     public static boolean checkIfNoneMatchEtag(final HttpServletRequest request, final HttpServletResponse response, final String etag) {

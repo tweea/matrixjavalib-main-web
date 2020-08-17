@@ -3,6 +3,6 @@
  * 保留所有权利。
  */
 /**
- * Servlet 工具集。
+ * Servlet 工具。
  */
 package net.matrix.servlet;

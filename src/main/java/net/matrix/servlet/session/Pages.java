@@ -133,7 +133,7 @@ public final class Pages {
 
     private static int getPageSize(final HttpServletRequest request, final int defaultValue) {
         if (defaultValue <= 0) {
-            throw new IllegalArgumentException("每页显示数目必须大于等于1");
+            throw new IllegalArgumentException("每页显示数目必须大于等于 1");
         }
         int pageSize;
         String page = request.getParameter(SIZE_KEY);
