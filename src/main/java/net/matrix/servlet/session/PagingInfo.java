@@ -136,7 +136,7 @@ public class PagingInfo {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(64);
         sb.append(super.toString());
         sb.append("{key=").append(key).append(",url=").append(url);
         sb.append(",total=").append(total).append(",pageIndex=").append(pageIndex);

@@ -28,6 +28,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.Maps;
+
 /**
  * 保存所有请求内容。
  */
@@ -130,9 +132,9 @@ public class RequestDumpFilter
         dumpStringMap(writer, "Request: " + request, requestProperties);
 
         // request headers
-        Map<String, String> requestHeaders = new LinkedHashMap<>();
         List<String> names = Collections.list(request.getHeaderNames());
         Collections.sort(names);
+        Map<String, String> requestHeaders = Maps.newLinkedHashMapWithExpectedSize(names.size());
         for (String name : names) {
             String value = request.getHeader(name);
             requestHeaders.put(name, value);
@@ -154,9 +156,9 @@ public class RequestDumpFilter
         dumpStringMap(writer, "Request Parameters", requestParameters);
 
         // request attributes
-        Map<String, Object> requestAttributes = new LinkedHashMap<>();
         names = Collections.list(request.getAttributeNames());
         Collections.sort(names);
+        Map<String, Object> requestAttributes = Maps.newLinkedHashMapWithExpectedSize(names.size());
         for (String name : names) {
             Object obj = request.getAttribute(name);
             requestAttributes.put(name, obj);
@@ -185,9 +187,9 @@ public class RequestDumpFilter
             writer.println(session);
 
             // session attributes
-            Map<String, Object> sessionAttributes = new LinkedHashMap<>();
             List<String> names = Collections.list(session.getAttributeNames());
             Collections.sort(names);
+            Map<String, Object> sessionAttributes = Maps.newLinkedHashMapWithExpectedSize(names.size());
             for (String name : names) {
                 Object obj = session.getAttribute(name);
                 sessionAttributes.put(name, obj);
