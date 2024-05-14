@@ -8,10 +8,9 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
-
-import net.matrix.lang.Objects2;
 
 /**
  * 分页工具。
@@ -113,7 +112,7 @@ public final class Pages {
         if (NumberUtils.isParsable(page)) {
             total = Long.parseLong(page);
         } else {
-            total = Objects2.isNull((Long) request.getAttribute(TATAL_KEY), 0L);
+            total = ObjectUtils.defaultIfNull((Long) request.getAttribute(TATAL_KEY), 0L);
         }
         request.setAttribute(TATAL_KEY, total);
         return total;
@@ -125,7 +124,7 @@ public final class Pages {
         if (NumberUtils.isParsable(page)) {
             pageIndex = Integer.parseInt(page);
         } else {
-            pageIndex = Objects2.isNull((Integer) request.getAttribute(INDEX_KEY), 0);
+            pageIndex = ObjectUtils.defaultIfNull((Integer) request.getAttribute(INDEX_KEY), 0);
         }
         request.setAttribute(INDEX_KEY, pageIndex);
         return pageIndex;
@@ -140,7 +139,7 @@ public final class Pages {
         if (NumberUtils.isParsable(page)) {
             pageSize = Integer.parseInt(page);
         } else {
-            pageSize = Objects2.isNull((Integer) request.getAttribute(SIZE_KEY), defaultValue);
+            pageSize = ObjectUtils.defaultIfNull((Integer) request.getAttribute(SIZE_KEY), defaultValue);
         }
         request.setAttribute(SIZE_KEY, pageSize);
         return pageSize;

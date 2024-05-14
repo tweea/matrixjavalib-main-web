@@ -5,6 +5,7 @@
 package net.matrix.servlet.session;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
@@ -14,11 +15,10 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 
-import net.matrix.text.DateFormatHelper;
-import net.matrix.util.IterableEnumeration;
+import net.matrix.java.time.DateTimeFormatterMx;
+import net.matrix.java.time.DateTimeMx;
+import net.matrix.java.util.EnumerationIterable;
 
 /**
  * 参数和请求工具。
@@ -248,7 +248,7 @@ public final class HttpServlets {
         if (StringUtils.isBlank(value)) {
             return null;
         }
-        return DateFormatHelper.parseDate(value, format);
+        return DateTimeMx.toDate(DateTimeFormatterMx.parseInstant(value, format), null);
     }
 
     /**
@@ -267,7 +267,7 @@ public final class HttpServlets {
         if (StringUtils.isBlank(value)) {
             return null;
         }
-        return DateFormatHelper.parseCalendar(value, format);
+        return DateTimeMx.toCalendar(DateTimeFormatterMx.parseInstant(value, format), null);
     }
 
     /**
@@ -281,12 +281,12 @@ public final class HttpServlets {
      *     日期格式
      * @return 参数内容
      */
-    public static DateTime getDateTimeParameter(final HttpServletRequest request, final String name, final String format) {
+    public static LocalDateTime getDateTimeParameter(final HttpServletRequest request, final String name, final String format) {
         String value = request.getParameter(name);
         if (StringUtils.isBlank(value)) {
             return null;
         }
-        return DateTimeFormat.forPattern(format).parseDateTime(value);
+        return DateTimeFormatterMx.parseLocalDateTime(value, format);
     }
 
     /**
@@ -305,7 +305,7 @@ public final class HttpServlets {
         }
         Enumeration paramNames = request.getParameterNames();
         Map<String, Object> params = new TreeMap<>();
-        for (String paramName : new IterableEnumeration<String>(paramNames)) {
+        for (String paramName : new EnumerationIterable<String>(paramNames)) {
             if ("".equals(prefix) || paramName.startsWith(prefix)) {
                 String unprefixed = paramName.substring(prefix.length());
                 String[] values = request.getParameterValues(paramName);

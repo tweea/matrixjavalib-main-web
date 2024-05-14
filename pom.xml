@@ -4,7 +4,7 @@
 
     <!-- 基本属性 - 项目属性 -->
     <artifactId>mxlib-web</artifactId>
-    <version>2.1.2-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <!-- 基本属性 - 属性 -->
@@ -12,15 +12,15 @@
     <!-- 基本属性 - 项目关系 -->
     <parent>
         <groupId>net.sf.matrixjavalib</groupId>
-        <artifactId>genesis8</artifactId>
-        <version>40</version>
+        <artifactId>genesis11</artifactId>
+        <version>41</version>
     </parent>
     <dependencies>
         <!-- compile -->
         <dependency>
             <groupId>net.sf.matrixjavalib</groupId>
             <artifactId>mxlib-common</artifactId>
-            <version>2.1.1</version>
+            <version>3.0.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <!-- provided -->
@@ -34,8 +34,8 @@
         <!-- test -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>2.13.3</version>
+            <artifactId>log4j-slf4j2-impl</artifactId>
+            <version>2.23.1</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -48,19 +48,19 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.17.2</version>
+            <version>3.25.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.7.0</version>
+            <version>5.10.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>5.2.8.RELEASE</version>
+            <version>5.3.34</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -68,8 +68,8 @@
     <!-- 构建设置 -->
 
     <!-- 项目信息 -->
-    <name>Matrix :: Web 类库</name>
-    <description>与 Web 相关的实用工具等。</description>
+    <name>Matrix :: Web 工具</name>
+    <description>Web 工具</description>
     <inceptionYear>2008</inceptionYear>
 
     <!-- 构建环境 -->

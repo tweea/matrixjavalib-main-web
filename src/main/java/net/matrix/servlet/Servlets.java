@@ -4,14 +4,14 @@
  */
 package net.matrix.servlet;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.common.net.HttpHeaders;
-
-import net.matrix.util.Encodes;
 
 /**
  * Servlet 工具。
@@ -155,7 +155,7 @@ public final class Servlets {
      */
     public static void setFileDownloadHeader(final HttpServletResponse response, final String filename) {
         // 中文文件名支持
-        String encodedFilename = Encodes.urlEncode(filename);
+        String encodedFilename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFilename + '\"');
     }
 }
