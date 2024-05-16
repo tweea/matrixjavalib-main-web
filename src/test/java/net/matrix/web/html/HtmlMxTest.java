@@ -1,5 +1,5 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
 package net.matrix.web.html;
@@ -8,12 +8,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class HTMLsTest {
+public class HtmlMxTest {
     @Test
-    public void testFitToLength() {
+    public void testExpandToLength() {
         String xx = "abc";
         String yy = "abc&nbsp;&nbsp;";
 
-        assertThat(HTMLs.fitToLength(xx, 5)).isEqualTo(yy);
+        assertThat(HtmlMx.expandToLength(xx, 5)).isEqualTo(yy);
     }
 }
