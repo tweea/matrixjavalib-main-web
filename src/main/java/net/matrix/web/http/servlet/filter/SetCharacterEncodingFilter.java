@@ -1,8 +1,8 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
-package net.matrix.servlet.filter;
+package net.matrix.web.http.servlet.filter;
 
 import java.io.IOException;
 
@@ -12,6 +12,8 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>
@@ -54,22 +56,13 @@ public class SetCharacterEncodingFilter
      * Place this filter into service.
      * 
      * @param filterConfig
-     *     The filter configuration object
+     *     The filter configuration object.
      */
     @Override
-    public void init(final FilterConfig filterConfig)
+    public void init(FilterConfig filterConfig)
         throws ServletException {
         this.encoding = filterConfig.getInitParameter("encoding");
-        String value = filterConfig.getInitParameter("ignore");
-        if (value == null) {
-            this.ignore = true;
-        } else if ("true".equalsIgnoreCase(value)) {
-            this.ignore = true;
-        } else if ("yes".equalsIgnoreCase(value)) {
-            this.ignore = true;
-        } else {
-            this.ignore = false;
-        }
+        this.ignore = StringUtils.equalsAnyIgnoreCase(filterConfig.getInitParameter("ignore"), null, "true", "yes");
     }
 
     /**
@@ -85,18 +78,18 @@ public class SetCharacterEncodingFilter
      * interpret request parameters for this request.
      * 
      * @param request
-     *     The servlet request we are processing
+     *     The servlet request we are processing.
      * @param response
-     *     The servlet response we are creating
+     *     The servlet response we are creating.
      * @param chain
-     *     The filter chain we are processing
+     *     The filter chain we are processing.
      * @exception IOException
-     *     if an input/output error occurs
+     *     if an input/output error occurs.
      * @exception ServletException
-     *     if a servlet error occurs
+     *     if a servlet error occurs.
      */
     @Override
-    public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
         throws IOException, ServletException {
         // Conditionally select and set the character encoding to be used
         if (ignore || request.getCharacterEncoding() == null) {
@@ -118,9 +111,9 @@ public class SetCharacterEncodingFilter
      * <strong>encoding</strong> initialization parameter for this filter.
      * 
      * @param request
-     *     The servlet request we are processing
+     *     The servlet request we are processing.
      */
-    protected String selectEncoding(final ServletRequest request) {
+    protected String selectEncoding(ServletRequest request) {
         return this.encoding;
     }
 }
