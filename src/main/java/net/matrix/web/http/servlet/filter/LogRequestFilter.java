@@ -1,5 +1,5 @@
 /*
- * 版权所有 2020 Matrix。
+ * 版权所有 2024 Matrix。
  * 保留所有权利。
  */
 package net.matrix.web.http.servlet.filter;
@@ -7,7 +7,9 @@ package net.matrix.web.http.servlet.filter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -23,7 +25,10 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
+import org.apache.commons.collections4.IterableUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,17 +36,15 @@ import org.slf4j.LoggerFactory;
 import com.google.common.collect.Maps;
 
 /**
- * 保存所有请求内容。
+ * 输出请求内容到日志。
  */
-public class RequestDumpFilter
+public class LogRequestFilter
     implements Filter {
-    private static final Logger LOG = LoggerFactory.getLogger(RequestDumpFilter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(LogRequestFilter.class);
 
     private boolean enabled;
 
-    private boolean hasRequesst = true;
-
-    private boolean hasCookie = true;
+    private boolean hasRequest = true;
 
     private boolean hasResponse = true;
 
@@ -50,23 +53,20 @@ public class RequestDumpFilter
     private int maxLength = 100;
 
     @Override
-    public void init(final FilterConfig filterConfigIn)
+    public void init(FilterConfig filterConfig)
         throws ServletException {
-        this.enabled = "true".equals(filterConfigIn.getInitParameter("enable"));
-        if (StringUtils.isNotEmpty(filterConfigIn.getInitParameter("hasRequesst"))) {
-            this.hasRequesst = "true".equals(filterConfigIn.getInitParameter("hasRequesst"));
+        this.enabled = "true".equals(filterConfig.getInitParameter("enable"));
+        if (StringUtils.isNotEmpty(filterConfig.getInitParameter("hasRequest"))) {
+            this.hasRequest = "true".equals(filterConfig.getInitParameter("hasRequest"));
         }
-        if (StringUtils.isNotEmpty(filterConfigIn.getInitParameter("hasCookie"))) {
-            this.hasCookie = "true".equals(filterConfigIn.getInitParameter("hasCookie"));
+        if (StringUtils.isNotEmpty(filterConfig.getInitParameter("hasResponse"))) {
+            this.hasResponse = "true".equals(filterConfig.getInitParameter("hasResponse"));
         }
-        if (StringUtils.isNotEmpty(filterConfigIn.getInitParameter("hasResponse"))) {
-            this.hasResponse = "true".equals(filterConfigIn.getInitParameter("hasResponse"));
+        if (StringUtils.isNotEmpty(filterConfig.getInitParameter("hasSession"))) {
+            this.hasSession = "true".equals(filterConfig.getInitParameter("hasSession"));
         }
-        if (StringUtils.isNotEmpty(filterConfigIn.getInitParameter("hasSession"))) {
-            this.hasSession = "true".equals(filterConfigIn.getInitParameter("hasSession"));
-        }
-        if (StringUtils.isNotEmpty(filterConfigIn.getInitParameter("maxLength"))) {
-            this.maxLength = Integer.parseInt(filterConfigIn.getInitParameter("maxLength"));
+        if (StringUtils.isNotEmpty(filterConfig.getInitParameter("maxLength"))) {
+            this.maxLength = Integer.parseInt(filterConfig.getInitParameter("maxLength"));
         }
     }
 
@@ -76,134 +76,203 @@ public class RequestDumpFilter
     }
 
     @Override
-    public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
         throws IOException, ServletException {
         if (enabled) {
             HttpServletRequest httpRequest = (HttpServletRequest) request;
             HttpServletResponse httpResponse = (HttpServletResponse) response;
             HttpSession httpSession = httpRequest.getSession(false);
+
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             pw.println();
             pw.println("============================== 请求内容开始 ======================================");
-
-            if (hasRequesst) {
+            if (hasRequest) {
                 dumpRequest(httpRequest, pw);
             }
-
-            if (hasCookie) {
-                Cookie[] cookies = httpRequest.getCookies();
-                if (cookies != null) {
-                    for (Cookie cookie : cookies) {
-                        dumpCookie(cookie, pw);
-                    }
-                }
-            }
-
-            if (hasSession) {
-                dumpSession(httpSession, pw);
-            }
-
             if (hasResponse) {
                 dumpResponse(httpResponse, pw);
             }
-
+            if (hasSession) {
+                dumpSession(httpSession, pw);
+            }
             pw.println("============================== 请求内容结束 ======================================");
             LOG.info(sw.toString());
         }
+
         // Pass control on to the next filter
         chain.doFilter(request, response);
     }
 
-    private void dumpRequest(final HttpServletRequest request, final PrintWriter writer) {
-        // Object Properties
-        Map<String, String> requestProperties = new LinkedHashMap<>();
-        requestProperties.put("Local", request.getLocalAddr() + ':' + request.getLocalPort());
-        requestProperties.put("Remote", request.getRemoteAddr() + ':' + request.getRemotePort());
-        requestProperties.put("RequestURI", request.getRequestURI());
-        requestProperties.put("PathInfo", request.getPathInfo());
-        requestProperties.put("QueryString", request.getQueryString());
-        requestProperties.put("Method", request.getMethod());
-        requestProperties.put("ContentType", request.getContentType());
-        requestProperties.put("ContentLength", Integer.toString(request.getContentLength()));
-        requestProperties.put("CharacterEncoding", request.getCharacterEncoding());
-        requestProperties.put("Locale", request.getLocale().toString());
-        requestProperties.put("Locales", Collections.list(request.getLocales()).toString());
-        dumpStringMap(writer, "Request: " + request, requestProperties);
+    private void dumpRequest(HttpServletRequest request, PrintWriter writer)
+        throws IOException, ServletException {
+        // request properties
+        Map<String, String> properties = new LinkedHashMap<>();
+        properties.put("CharacterEncoding", request.getCharacterEncoding());
+        properties.put("ContentLength", Long.toString(request.getContentLengthLong()));
+        properties.put("ContentType", request.getContentType());
+        properties.put("Protocol", request.getProtocol());
+        properties.put("Scheme", request.getScheme());
+        properties.put("ServerName", request.getServerName());
+        properties.put("ServerPort", Integer.toString(request.getServerPort()));
+        properties.put("RemoteAddr", request.getRemoteAddr());
+        properties.put("RemoteHost", request.getRemoteHost());
+        properties.put("Locale", request.getLocale().toString());
+        properties.put("Locales", Collections.list(request.getLocales()).toString());
+        properties.put("Secure", Boolean.toString(request.isSecure()));
+        properties.put("RemotePort", Integer.toString(request.getRemotePort()));
+        properties.put("LocalName", request.getLocalName());
+        properties.put("LocalAddr", request.getLocalAddr());
+        properties.put("LocalPort", Integer.toString(request.getLocalPort()));
+        properties.put("Method", request.getMethod());
+        properties.put("PathInfo", request.getPathInfo());
+        properties.put("ContextPath", request.getContextPath());
+        properties.put("QueryString", request.getQueryString());
+        properties.put("RequestedSessionId", request.getRequestedSessionId());
+        properties.put("RequestURI", request.getRequestURI());
+        properties.put("ServletPath", request.getServletPath());
+        dumpStringMap(writer, "Request: " + request, properties);
 
         // request headers
-        List<String> names = Collections.list(request.getHeaderNames());
+        List<String> names = Collections.list(ObjectUtils.defaultIfNull(request.getHeaderNames(), Collections.emptyEnumeration()));
         Collections.sort(names);
-        Map<String, String> requestHeaders = Maps.newLinkedHashMapWithExpectedSize(names.size());
+        Map<String, String> headers = Maps.newLinkedHashMapWithExpectedSize(names.size());
         for (String name : names) {
-            String value = request.getHeader(name);
-            requestHeaders.put(name, value);
+            List<String> values = Collections.list(request.getHeaders(name));
+            if (values.size() == 1) {
+                headers.put(name, values.get(0));
+            } else {
+                headers.put(name, values.toString());
+            }
         }
-        dumpStringMap(writer, "Request Headers", requestHeaders);
+        dumpStringMap(writer, "Request Headers", headers);
 
         // request parameters
-        Map<String, String> requestParameters = new LinkedHashMap<>();
         names = Collections.list(request.getParameterNames());
         Collections.sort(names);
+        Map<String, String> parameters = Maps.newLinkedHashMapWithExpectedSize(names.size());
         for (String name : names) {
             String[] values = request.getParameterValues(name);
             if (values.length == 1) {
-                requestParameters.put(name, values[0]);
+                parameters.put(name, values[0]);
             } else {
-                requestParameters.put(name, Arrays.toString(values));
+                parameters.put(name, Arrays.toString(values));
             }
         }
-        dumpStringMap(writer, "Request Parameters", requestParameters);
+        dumpStringMap(writer, "Request Parameters", parameters);
+
+        // request cookies
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                dumpCookie(cookie, writer);
+            }
+        }
+
+        // request parts
+        Collection<Part> parts = request.getParts();
+        for (Part part : parts) {
+            dumpPart(part, writer);
+        }
 
         // request attributes
         names = Collections.list(request.getAttributeNames());
         Collections.sort(names);
-        Map<String, Object> requestAttributes = Maps.newLinkedHashMapWithExpectedSize(names.size());
+        Map<String, Object> attributes = Maps.newLinkedHashMapWithExpectedSize(names.size());
         for (String name : names) {
-            Object obj = request.getAttribute(name);
-            requestAttributes.put(name, obj);
+            Object value = request.getAttribute(name);
+            attributes.put(name, value);
         }
-        dumpObjectMap(writer, "Request Attributes", requestAttributes);
+        dumpObjectMap(writer, "Request Attributes", attributes);
     }
 
-    private void dumpCookie(final Cookie cookie, final PrintWriter writer) {
-        Map<String, String> cookieProperties = new LinkedHashMap<>();
-        cookieProperties.put("Name", cookie.getName());
-        cookieProperties.put("Value", cookie.getValue());
-        cookieProperties.put("Domain", cookie.getDomain());
-        cookieProperties.put("Path", cookie.getPath());
-        cookieProperties.put("MaxAge", Integer.toString(cookie.getMaxAge()));
-        cookieProperties.put("Secure", Boolean.toString(cookie.getSecure()));
-        cookieProperties.put("Version", Integer.toString(cookie.getVersion()));
-        cookieProperties.put("Comment", cookie.getComment());
-        dumpStringMap(writer, "Cookie: " + cookie, cookieProperties);
+    private void dumpCookie(Cookie cookie, PrintWriter writer) {
+        Map<String, String> properties = new LinkedHashMap<>();
+        properties.put("Comment", cookie.getComment());
+        properties.put("Domain", cookie.getDomain());
+        properties.put("MaxAge", Integer.toString(cookie.getMaxAge()));
+        properties.put("Path", cookie.getPath());
+        properties.put("Secure", Boolean.toString(cookie.getSecure()));
+        properties.put("Name", cookie.getName());
+        properties.put("Value", cookie.getValue());
+        properties.put("Version", Integer.toString(cookie.getVersion()));
+        properties.put("HttpOnly", Boolean.toString(cookie.isHttpOnly()));
+        dumpStringMap(writer, "Cookie: " + cookie, properties);
     }
 
-    private void dumpSession(final HttpSession session, final PrintWriter writer) {
-        writer.print("session: ");
-        if (session == null) {
-            writer.println("未创建");
-        } else {
-            writer.println(session);
+    private void dumpPart(Part part, PrintWriter writer) {
+        Map<String, String> properties = new LinkedHashMap<>();
+        properties.put("ContentType", part.getContentType());
+        properties.put("Name", part.getName());
+        properties.put("SubmittedFileName", part.getSubmittedFileName());
+        properties.put("Size", Long.toString(part.getSize()));
+        dumpStringMap(writer, "Part: " + part, properties);
 
-            // session attributes
-            List<String> names = Collections.list(session.getAttributeNames());
-            Collections.sort(names);
-            Map<String, Object> sessionAttributes = Maps.newLinkedHashMapWithExpectedSize(names.size());
-            for (String name : names) {
-                Object obj = session.getAttribute(name);
-                sessionAttributes.put(name, obj);
+        // part headers
+        List<String> names = new ArrayList(ObjectUtils.defaultIfNull(part.getHeaderNames(), Collections.emptyList()));
+        Collections.sort(names);
+        Map<String, String> headers = Maps.newLinkedHashMapWithExpectedSize(names.size());
+        for (String name : names) {
+            Collection<String> values = part.getHeaders(name);
+            if (values.size() == 1) {
+                headers.put(name, IterableUtils.first(values));
+            } else {
+                headers.put(name, values.toString());
             }
-            dumpObjectMap(writer, "Session Attributes", sessionAttributes);
         }
+        dumpStringMap(writer, "Part Headers", headers);
     }
 
-    private void dumpResponse(final HttpServletResponse response, final PrintWriter writer) {
-        writer.print("response: ");
-        writer.println(response);
+    private void dumpResponse(HttpServletResponse response, PrintWriter writer) {
+        // response properties
+        Map<String, String> properties = new LinkedHashMap<>();
+        properties.put("CharacterEncoding", response.getCharacterEncoding());
+        properties.put("ContentType", response.getContentType());
+        properties.put("Locale", response.getLocale().toString());
+        properties.put("Status", Integer.toString(response.getStatus()));
+        dumpStringMap(writer, "Response: " + response, properties);
+
+        // response headers
+        List<String> names = new ArrayList(ObjectUtils.defaultIfNull(response.getHeaderNames(), Collections.emptyList()));
+        Collections.sort(names);
+        Map<String, String> headers = Maps.newLinkedHashMapWithExpectedSize(names.size());
+        for (String name : names) {
+            Collection<String> values = response.getHeaders(name);
+            if (values.size() == 1) {
+                headers.put(name, IterableUtils.first(values));
+            } else {
+                headers.put(name, values.toString());
+            }
+        }
+        dumpStringMap(writer, "Response Headers", headers);
     }
 
-    private void dumpStringMap(final PrintWriter writer, final String title, final Map<String, String> map) {
+    private void dumpSession(HttpSession session, PrintWriter writer) {
+        if (session == null) {
+            writer.println("Session: 未创建");
+            return;
+        }
+
+        // session properties
+        Map<String, String> properties = new LinkedHashMap<>();
+        properties.put("CreationTime", Long.toString(session.getCreationTime()));
+        properties.put("Id", session.getId());
+        properties.put("LastAccessedTime", Long.toString(session.getLastAccessedTime()));
+        properties.put("New", Boolean.toString(session.isNew()));
+        dumpStringMap(writer, "Session: " + session, properties);
+
+        // session attributes
+        List<String> names = Collections.list(session.getAttributeNames());
+        Collections.sort(names);
+        Map<String, Object> attributes = Maps.newLinkedHashMapWithExpectedSize(names.size());
+        for (String name : names) {
+            Object value = session.getAttribute(name);
+            attributes.put(name, value);
+        }
+        dumpObjectMap(writer, "Session Attributes", attributes);
+    }
+
+    private void dumpStringMap(PrintWriter writer, String title, Map<String, String> map) {
         int maxNameLen = 0;
         int maxValueLen = 0;
         int totalLen = title.length();
@@ -283,7 +352,7 @@ public class RequestDumpFilter
         }
     }
 
-    private void dumpObjectMap(final PrintWriter writer, final String title, final Map<String, Object> objMap) {
+    private void dumpObjectMap(PrintWriter writer, String title, Map<String, Object> objMap) {
         Map<String, ClassAndToString> map = new LinkedHashMap<>();
         for (Map.Entry<String, Object> item : objMap.entrySet()) {
             map.put(item.getKey(), new ClassAndToString(item.getValue()));
@@ -296,8 +365,8 @@ public class RequestDumpFilter
                 if (item.getKey().length() > maxNameLen) {
                     maxNameLen = item.getKey().length();
                 }
-                if (item.getValue().clazz.length() > maxClassLen) {
-                    maxClassLen = item.getValue().clazz.length();
+                if (item.getValue().className.length() > maxClassLen) {
+                    maxClassLen = item.getValue().className.length();
                 }
                 if (item.getValue().toString.length() <= maxLength && item.getValue().toString.length() > maxValueLen) {
                     maxValueLen = item.getValue().toString.length();
@@ -333,8 +402,8 @@ public class RequestDumpFilter
                 writer.print(item.getKey());
                 printChar(writer, ' ', maxNameLen - item.getKey().length());
                 writer.print('|');
-                writer.print(item.getValue().clazz);
-                printChar(writer, ' ', maxClassLen - item.getValue().clazz.length());
+                writer.print(item.getValue().className);
+                printChar(writer, ' ', maxClassLen - item.getValue().className.length());
                 writer.println('|');
                 int linNum = item.getValue().toString.length() / maxLength;
                 if (item.getValue().toString.length() % maxLength != 0) {
@@ -367,7 +436,7 @@ public class RequestDumpFilter
     }
 
     private static final class ClassAndToString {
-        final String clazz;
+        final String className;
 
         final String toString;
 
@@ -377,12 +446,12 @@ public class RequestDumpFilter
          * @param obj
          *     对象
          */
-        ClassAndToString(final Object obj) {
+        ClassAndToString(Object obj) {
             if (obj == null) {
-                this.clazz = "(n/a)";
+                this.className = "(n/a)";
                 this.toString = "(null)";
             } else {
-                this.clazz = obj.getClass().toString();
+                this.className = obj.getClass().toString();
                 if (obj.getClass().isArray()) {
                     this.toString = Arrays.toString((Object[]) obj);
                 } else {
@@ -392,7 +461,7 @@ public class RequestDumpFilter
         }
     }
 
-    private static void printChar(final PrintWriter writer, final char ch, final int repeat) {
+    private static void printChar(PrintWriter writer, char ch, int repeat) {
         for (int i = 0; i < repeat; i++) {
             writer.print(ch);
         }
