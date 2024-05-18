@@ -35,12 +35,19 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Maps;
 
+import net.matrix.text.ResourceBundleMessageFormatter;
+
 /**
  * 输出请求内容到日志。
  */
 public class LogRequestFilter
     implements Filter {
     private static final Logger LOG = LoggerFactory.getLogger(LogRequestFilter.class);
+
+    /**
+     * 区域相关资源。
+     */
+    private static final ResourceBundleMessageFormatter RBMF = new ResourceBundleMessageFormatter(LogRequestFilter.class).useCurrentLocale();
 
     private boolean enabled;
 
@@ -86,7 +93,7 @@ public class LogRequestFilter
             StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             pw.println();
-            pw.println("============================== 请求内容开始 ======================================");
+            pw.println(RBMF.get("============================== 请求内容开始 ======================================"));
             if (hasRequest) {
                 dumpRequest(httpRequest, pw);
             }
@@ -96,7 +103,7 @@ public class LogRequestFilter
             if (hasSession) {
                 dumpSession(httpSession, pw);
             }
-            pw.println("============================== 请求内容结束 ======================================");
+            pw.print(RBMF.get("============================== 请求内容结束 ======================================"));
             LOG.info(sw.toString());
         }
 
@@ -249,7 +256,8 @@ public class LogRequestFilter
 
     private void dumpSession(HttpSession session, PrintWriter writer) {
         if (session == null) {
-            writer.println("Session: 未创建");
+            writer.print("Session: ");
+            writer.println(RBMF.get("未创建"));
             return;
         }
 
