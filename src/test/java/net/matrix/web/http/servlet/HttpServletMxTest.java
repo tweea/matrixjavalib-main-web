@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -236,5 +237,16 @@ public class HttpServletMxTest {
         assertThat(parameterMap).containsEntry("pre_a", "aa");
         assertThat(parameterMap).containsEntry("pre_b", "bb");
         assertThat(parameterMap).containsEntry("c", "c");
+    }
+
+    @Test
+    public void testGetPageable() {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.addParameter("a", "1");
+        request.addParameter("b", "2");
+
+        Pageable pageable = HttpServletMx.getPageable(request, "a", "b");
+        assertThat(pageable.getPageSize()).isEqualTo(1);
+        assertThat(pageable.getPageNumber()).isEqualTo(2);
     }
 }

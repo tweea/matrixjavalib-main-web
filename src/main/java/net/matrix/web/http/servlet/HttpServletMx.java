@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import com.google.common.collect.Maps;
 import com.google.common.net.HttpHeaders;
@@ -404,5 +406,27 @@ public final class HttpServletMx {
             result.put(key, URLDecoder.decode(value, StandardCharsets.UTF_8));
         }
         return result;
+    }
+
+    /**
+     * 获取分页请求参数。
+     * 
+     * @param request
+     *     HTTP 请求。
+     * @param pageSizeName
+     *     分页大小参数名。
+     * @param pageNumberName
+     *     分页序号参数名。
+     * @return 分页参数。
+     */
+    public static Pageable getPageable(HttpServletRequest request, String pageSizeName, String pageNumberName) {
+        int pageSize = getIntegerParameter(request, pageSizeName, 0);
+        int pageNumber = getIntegerParameter(request, pageNumberName, 0);
+
+        if (pageSize == 0) {
+            return Pageable.unpaged();
+        }
+
+        return PageRequest.of(pageNumber, pageSize);
     }
 }
