@@ -5,12 +5,14 @@
 package net.matrix.web.http.servlet;
 
 import java.math.BigDecimal;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.google.common.collect.Maps;
 import com.google.common.net.HttpHeaders;
 
 import net.matrix.java.time.DateTimeFormatterMx;
@@ -201,7 +204,7 @@ public final class HttpServletMx {
             return defaultValue;
         }
 
-        return value;
+        return URLDecoder.decode(value, StandardCharsets.UTF_8);
     }
 
     /**
@@ -381,5 +384,25 @@ public final class HttpServletMx {
         }
 
         return DateTimeFormatterMx.parseLocalDateTime(value, pattern);
+    }
+
+    /**
+     * 获取字符串类型的所有请求参数。
+     * 
+     * @param request
+     *     HTTP 请求。
+     * @return 所有参数。
+     */
+    public static Map<String, String> getParameterMap(HttpServletRequest request) {
+        Map<String, String[]> parameterMap = request.getParameterMap();
+
+        Map<String, String> result = Maps.newLinkedHashMapWithExpectedSize(parameterMap.size());
+        for (Map.Entry<String, String[]> parameterEntry : parameterMap.entrySet()) {
+            String key = parameterEntry.getKey();
+            String value = parameterEntry.getValue()[0];
+
+            result.put(key, URLDecoder.decode(value, StandardCharsets.UTF_8));
+        }
+        return result;
     }
 }

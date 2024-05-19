@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -221,5 +222,19 @@ public class HttpServletMxTest {
 
         assertThat(HttpServletMx.getLocalDateTimeParameter(request, "abc", ISO_DATETIME_FORMAT)).isEqualTo(datetime);
         assertThat(HttpServletMx.getLocalDateTimeParameter(request, "xyz", ISO_DATETIME_FORMAT)).isNull();
+    }
+
+    @Test
+    public void testGetParameterMap() {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.addParameter("pre_a", "aa");
+        request.addParameter("pre_b", "bb");
+        request.addParameter("c", "c");
+
+        Map<String, String> parameterMap = HttpServletMx.getParameterMap(request);
+        assertThat(parameterMap).hasSize(3);
+        assertThat(parameterMap).containsEntry("pre_a", "aa");
+        assertThat(parameterMap).containsEntry("pre_b", "bb");
+        assertThat(parameterMap).containsEntry("c", "c");
     }
 }
