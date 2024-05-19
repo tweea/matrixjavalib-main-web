@@ -4,14 +4,23 @@
  */
 package net.matrix.web.http.servlet;
 
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.common.net.HttpHeaders;
+
+import net.matrix.java.time.DateTimeFormatterMx;
 
 /**
  * HTTP 协议的 Servlet 工具。
@@ -160,5 +169,217 @@ public final class HttpServletMx {
         // 中文文件名支持
         String encodedFilename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFilename + '\"');
+    }
+
+    /**
+     * 获取字符串类型请求参数。
+     * 
+     * @param request
+     *     HTTP 请求。
+     * @param name
+     *     参数名。
+     * @return 参数值。
+     */
+    public static String getParameter(HttpServletRequest request, String name) {
+        return getParameter(request, name, null);
+    }
+
+    /**
+     * 获取字符串类型请求参数。
+     * 
+     * @param request
+     *     HTTP 请求。
+     * @param name
+     *     参数名。
+     * @param defaultValue
+     *     默认值。
+     * @return 参数值。
+     */
+    public static String getParameter(HttpServletRequest request, String name, String defaultValue) {
+        String value = request.getParameter(name);
+        if (value == null) {
+            return defaultValue;
+        }
+
+        return value;
+    }
+
+    /**
+     * 获取整型请求参数。
+     * 
+     * @param request
+     *     HTTP 请求。
+     * @param name
+     *     参数名。
+     * @return 参数值。
+     */
+    public static Integer getIntegerParameter(HttpServletRequest request, String name) {
+        return getIntegerParameter(request, name, null);
+    }
+
+    /**
+     * 获取整型请求参数。
+     * 
+     * @param request
+     *     HTTP 请求。
+     * @param name
+     *     参数名。
+     * @param defaultValue
+     *     默认值。
+     * @return 参数值。
+     */
+    public static Integer getIntegerParameter(HttpServletRequest request, String name, Integer defaultValue) {
+        String value = request.getParameter(name);
+        if (StringUtils.isBlank(value)) {
+            return defaultValue;
+        }
+
+        return Integer.valueOf(value);
+    }
+
+    /**
+     * 获取长整型请求参数。
+     * 
+     * @param request
+     *     HTTP 请求。
+     * @param name
+     *     参数名。
+     * @return 参数值。
+     */
+    public static Long getLongParameter(HttpServletRequest request, String name) {
+        return getLongParameter(request, name, null);
+    }
+
+    /**
+     * 获取长整型请求参数。
+     * 
+     * @param request
+     *     HTTP 请求。
+     * @param name
+     *     参数名。
+     * @param defaultValue
+     *     默认值。
+     * @return 参数值。
+     */
+    public static Long getLongParameter(HttpServletRequest request, String name, Long defaultValue) {
+        String value = request.getParameter(name);
+        if (StringUtils.isBlank(value)) {
+            return defaultValue;
+        }
+
+        return Long.valueOf(value);
+    }
+
+    /**
+     * 获取十进制数值类型请求参数。
+     * 
+     * @param request
+     *     HTTP 请求。
+     * @param name
+     *     参数名。
+     * @return 参数值。
+     */
+    public static BigDecimal getBigDecimalParameter(HttpServletRequest request, String name) {
+        return getBigDecimalParameter(request, name, null);
+    }
+
+    /**
+     * 获取十进制数值类型请求参数。
+     * 
+     * @param request
+     *     HTTP 请求。
+     * @param name
+     *     参数名。
+     * @param defaultValue
+     *     默认值。
+     * @return 参数值。
+     */
+    public static BigDecimal getBigDecimalParameter(HttpServletRequest request, String name, BigDecimal defaultValue) {
+        String value = request.getParameter(name);
+        if (StringUtils.isBlank(value)) {
+            return defaultValue;
+        }
+
+        return new BigDecimal(value);
+    }
+
+    /**
+     * 获取时刻类型请求参数。
+     * 
+     * @param request
+     *     HTTP 请求。
+     * @param name
+     *     参数名。
+     * @param pattern
+     *     格式，形式见 {@link java.time.format.DateTimeFormatter}。
+     * @return 参数值。
+     */
+    public static Instant getInstantParameter(HttpServletRequest request, String name, String pattern) {
+        String value = request.getParameter(name);
+        if (StringUtils.isBlank(value)) {
+            return null;
+        }
+
+        return DateTimeFormatterMx.parseInstant(value, pattern);
+    }
+
+    /**
+     * 获取本地日期类型请求参数。
+     * 
+     * @param request
+     *     HTTP 请求。
+     * @param name
+     *     参数名。
+     * @param pattern
+     *     格式，形式见 {@link java.time.format.DateTimeFormatter}。
+     * @return 参数值。
+     */
+    public static LocalDate getLocalDateParameter(HttpServletRequest request, String name, String pattern) {
+        String value = request.getParameter(name);
+        if (StringUtils.isBlank(value)) {
+            return null;
+        }
+
+        return DateTimeFormatterMx.parseLocalDate(value, pattern);
+    }
+
+    /**
+     * 获取本地时间类型请求参数。
+     * 
+     * @param request
+     *     HTTP 请求。
+     * @param name
+     *     参数名。
+     * @param pattern
+     *     格式，形式见 {@link java.time.format.DateTimeFormatter}。
+     * @return 参数值。
+     */
+    public static LocalTime getLocalTimeParameter(HttpServletRequest request, String name, String pattern) {
+        String value = request.getParameter(name);
+        if (StringUtils.isBlank(value)) {
+            return null;
+        }
+
+        return DateTimeFormatterMx.parseLocalTime(value, pattern);
+    }
+
+    /**
+     * 获取本地日期时间类型请求参数。
+     * 
+     * @param request
+     *     HTTP 请求。
+     * @param name
+     *     参数名。
+     * @param pattern
+     *     格式，形式见 {@link java.time.format.DateTimeFormatter}。
+     * @return 参数值。
+     */
+    public static LocalDateTime getLocalDateTimeParameter(HttpServletRequest request, String name, String pattern) {
+        String value = request.getParameter(name);
+        if (StringUtils.isBlank(value)) {
+            return null;
+        }
+
+        return DateTimeFormatterMx.parseLocalDateTime(value, pattern);
     }
 }

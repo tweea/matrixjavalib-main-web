@@ -4,6 +4,11 @@
  */
 package net.matrix.web.http.servlet;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 import org.junit.jupiter.api.Test;
@@ -15,6 +20,14 @@ import com.google.common.net.HttpHeaders;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class HttpServletMxTest {
+    public static final String ISO_INSTANT_FORMAT = "yyyy-MM-dd'T'HH:mm:ssX";
+
+    public static final String ISO_DATE_FORMAT = "yyyy-MM-dd";
+
+    public static final String ISO_TIME_FORMAT = "HH:mm:ss";
+
+    public static final String ISO_DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+
     @Test
     public void testGetUserAgentHeader() {
         MockHttpServletRequest request = new MockHttpServletRequest();
@@ -96,5 +109,117 @@ public class HttpServletMxTest {
 
         HttpServletMx.setFilenameHeader(response, "test");
         assertThat(response.getHeader(HttpHeaders.CONTENT_DISPOSITION)).startsWith("attachment");
+    }
+
+    @Test
+    public void testGetParameter() {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.setParameter("abc", "123");
+
+        assertThat(HttpServletMx.getParameter(request, "abc")).isEqualTo("123");
+        assertThat(HttpServletMx.getParameter(request, "xyz")).isNull();
+    }
+
+    @Test
+    public void testGetParameter_defaultValue() {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.setParameter("abc", "123");
+
+        assertThat(HttpServletMx.getParameter(request, "abc", "456")).isEqualTo("123");
+        assertThat(HttpServletMx.getParameter(request, "xyz", "456")).isEqualTo("456");
+    }
+
+    @Test
+    public void testGetIntegerParameter() {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.setParameter("abc", "123");
+
+        assertThat(HttpServletMx.getIntegerParameter(request, "abc")).isEqualTo(123);
+        assertThat(HttpServletMx.getIntegerParameter(request, "xyz")).isNull();
+    }
+
+    @Test
+    public void testGetIntegerParameter_defaultValue() {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.setParameter("abc", "123");
+
+        assertThat(HttpServletMx.getIntegerParameter(request, "abc", 456)).isEqualTo(123);
+        assertThat(HttpServletMx.getIntegerParameter(request, "xyz", 456)).isEqualTo(456);
+    }
+
+    @Test
+    public void testGetLongParameter() {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.setParameter("abc", "123");
+
+        assertThat(HttpServletMx.getLongParameter(request, "abc")).isEqualTo(123);
+        assertThat(HttpServletMx.getLongParameter(request, "xyz")).isNull();
+    }
+
+    @Test
+    public void testGetLongParameter_defaultValue() {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.setParameter("abc", "123");
+
+        assertThat(HttpServletMx.getLongParameter(request, "abc", 456L)).isEqualTo(123);
+        assertThat(HttpServletMx.getLongParameter(request, "xyz", 456L)).isEqualTo(456);
+    }
+
+    @Test
+    public void testGetBigDecimalParameter() {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.setParameter("abc", "123");
+
+        assertThat(HttpServletMx.getBigDecimalParameter(request, "abc")).isEqualTo("123");
+        assertThat(HttpServletMx.getBigDecimalParameter(request, "xyz")).isNull();
+    }
+
+    @Test
+    public void testGetBigDecimalParameter_defaultValue() {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.setParameter("abc", "123");
+
+        assertThat(HttpServletMx.getBigDecimalParameter(request, "abc", new BigDecimal(456))).isEqualTo("123");
+        assertThat(HttpServletMx.getBigDecimalParameter(request, "xyz", new BigDecimal(456))).isEqualTo("456");
+    }
+
+    @Test
+    public void testGetInstantParameter() {
+        LocalDateTime datetime = LocalDateTime.of(2011, 12, 1, 12, 13, 14);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.setParameter("abc", "2011-12-01T12:13:14Z");
+
+        assertThat(LocalDateTime.ofInstant(HttpServletMx.getInstantParameter(request, "abc", ISO_INSTANT_FORMAT), ZoneId.of("Z"))).isEqualTo(datetime);
+        assertThat(HttpServletMx.getInstantParameter(request, "xyz", ISO_INSTANT_FORMAT)).isNull();
+    }
+
+    @Test
+    public void testGetLocalDateParameter() {
+        LocalDate date = LocalDate.of(2011, 12, 1);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.setParameter("abc", "2011-12-01");
+
+        assertThat(HttpServletMx.getLocalDateParameter(request, "abc", ISO_DATE_FORMAT)).isEqualTo(date);
+        assertThat(HttpServletMx.getLocalDateParameter(request, "xyz", ISO_DATE_FORMAT)).isNull();
+    }
+
+    @Test
+    public void testGetLocalTimeParameter() {
+        LocalTime time = LocalTime.of(12, 13, 14);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.setParameter("abc", "12:13:14");
+
+        assertThat(HttpServletMx.getLocalTimeParameter(request, "abc", ISO_TIME_FORMAT)).isEqualTo(time);
+        assertThat(HttpServletMx.getLocalTimeParameter(request, "xyz", ISO_TIME_FORMAT)).isNull();
+    }
+
+    @Test
+    public void testGetLocalDateTimeParameter() {
+        LocalDateTime datetime = LocalDateTime.of(2011, 12, 1, 12, 13, 14);
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.setParameter("abc", "2011-12-01T12:13:14");
+
+        assertThat(HttpServletMx.getLocalDateTimeParameter(request, "abc", ISO_DATETIME_FORMAT)).isEqualTo(datetime);
+        assertThat(HttpServletMx.getLocalDateTimeParameter(request, "xyz", ISO_DATETIME_FORMAT)).isNull();
     }
 }
