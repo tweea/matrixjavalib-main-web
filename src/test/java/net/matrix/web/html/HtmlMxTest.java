@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class HtmlMxTest {
+class HtmlMxTest {
     @Test
-    public void testExpandToLength() {
+    void testExpandToLength() {
         String xx = "abc";
         String yy = "abc&nbsp;&nbsp;";
 

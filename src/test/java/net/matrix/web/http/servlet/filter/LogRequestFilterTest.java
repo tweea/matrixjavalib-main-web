@@ -17,11 +17,11 @@ import org.springframework.mock.web.MockHttpServletResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class LogRequestFilterTest {
-    private FieldSupport fieldSupport = FieldSupport.extraction();
+class LogRequestFilterTest {
+    FieldSupport fieldSupport = FieldSupport.extraction();
 
     @Test
-    public void testInit()
+    void testInit()
         throws ServletException {
         MockFilterConfig filterConfig = new MockFilterConfig();
         filterConfig.addInitParameter("enable", "true");
@@ -32,7 +32,7 @@ public class LogRequestFilterTest {
     }
 
     @Test
-    public void testDoFilter()
+    void testDoFilter()
         throws ServletException, IOException {
         MockFilterConfig filterConfig = new MockFilterConfig();
         filterConfig.addInitParameter("enable", "true");

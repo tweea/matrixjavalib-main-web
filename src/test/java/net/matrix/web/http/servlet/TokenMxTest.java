@@ -10,9 +10,9 @@ import org.springframework.mock.web.MockHttpSession;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TokenMxTest {
+class TokenMxTest {
     @Test
-    public void testGenerateToken() {
+    void testGenerateToken() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpSession session = new MockHttpSession();
         request.setSession(session);
@@ -22,7 +22,7 @@ public class TokenMxTest {
     }
 
     @Test
-    public void testGetToken() {
+    void testGetToken() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpSession session = new MockHttpSession();
         request.setSession(session);
@@ -32,7 +32,7 @@ public class TokenMxTest {
     }
 
     @Test
-    public void testCheckToken() {
+    void testCheckToken() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpSession session = new MockHttpSession();
         request.setSession(session);
@@ -43,7 +43,7 @@ public class TokenMxTest {
     }
 
     @Test
-    public void testRemoveToken() {
+    void testRemoveToken() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpSession session = new MockHttpSession();
         request.setSession(session);

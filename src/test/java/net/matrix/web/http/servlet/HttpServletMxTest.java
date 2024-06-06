@@ -21,17 +21,17 @@ import com.google.common.net.HttpHeaders;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class HttpServletMxTest {
-    public static final String ISO_INSTANT_FORMAT = "yyyy-MM-dd'T'HH:mm:ssX";
+class HttpServletMxTest {
+    static final String ISO_INSTANT_FORMAT = "yyyy-MM-dd'T'HH:mm:ssX";
 
-    public static final String ISO_DATE_FORMAT = "yyyy-MM-dd";
+    static final String ISO_DATE_FORMAT = "yyyy-MM-dd";
 
-    public static final String ISO_TIME_FORMAT = "HH:mm:ss";
+    static final String ISO_TIME_FORMAT = "HH:mm:ss";
 
-    public static final String ISO_DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+    static final String ISO_DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
     @Test
-    public void testGetUserAgentHeader() {
+    void testGetUserAgentHeader() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addHeader(HttpHeaders.USER_AGENT, "test");
 
@@ -39,7 +39,7 @@ public class HttpServletMxTest {
     }
 
     @Test
-    public void testSetExpiresHeader() {
+    void testSetExpiresHeader() {
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         HttpServletMx.setExpiresHeader(response, 1);
@@ -48,7 +48,7 @@ public class HttpServletMxTest {
     }
 
     @Test
-    public void testSetNoCacheHeader() {
+    void testSetNoCacheHeader() {
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         HttpServletMx.setNoCacheHeader(response);
@@ -58,7 +58,7 @@ public class HttpServletMxTest {
     }
 
     @Test
-    public void testSetLastModifiedHeader() {
+    void testSetLastModifiedHeader() {
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         HttpServletMx.setLastModifiedHeader(response, System.currentTimeMillis());
@@ -66,7 +66,7 @@ public class HttpServletMxTest {
     }
 
     @Test
-    public void testCheckIfModifiedSince() {
+    void testCheckIfModifiedSince() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
 
@@ -82,7 +82,7 @@ public class HttpServletMxTest {
     }
 
     @Test
-    public void testSetEtagHeader() {
+    void testSetEtagHeader() {
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         HttpServletMx.setEtagHeader(response, "test");
@@ -90,7 +90,7 @@ public class HttpServletMxTest {
     }
 
     @Test
-    public void testCheckIfNoneMatchEtag() {
+    void testCheckIfNoneMatchEtag() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
 
@@ -106,7 +106,7 @@ public class HttpServletMxTest {
     }
 
     @Test
-    public void testSetFilenameHeader() {
+    void testSetFilenameHeader() {
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         HttpServletMx.setFilenameHeader(response, "test");
@@ -114,7 +114,7 @@ public class HttpServletMxTest {
     }
 
     @Test
-    public void testGetParameter() {
+    void testGetParameter() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setParameter("abc", "123");
 
@@ -123,7 +123,7 @@ public class HttpServletMxTest {
     }
 
     @Test
-    public void testGetParameter_defaultValue() {
+    void testGetParameter_defaultValue() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setParameter("abc", "123");
 
@@ -132,7 +132,7 @@ public class HttpServletMxTest {
     }
 
     @Test
-    public void testGetIntegerParameter() {
+    void testGetIntegerParameter() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setParameter("abc", "123");
 
@@ -141,7 +141,7 @@ public class HttpServletMxTest {
     }
 
     @Test
-    public void testGetIntegerParameter_defaultValue() {
+    void testGetIntegerParameter_defaultValue() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setParameter("abc", "123");
 
@@ -150,7 +150,7 @@ public class HttpServletMxTest {
     }
 
     @Test
-    public void testGetLongParameter() {
+    void testGetLongParameter() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setParameter("abc", "123");
 
@@ -159,7 +159,7 @@ public class HttpServletMxTest {
     }
 
     @Test
-    public void testGetLongParameter_defaultValue() {
+    void testGetLongParameter_defaultValue() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setParameter("abc", "123");
 
@@ -168,7 +168,7 @@ public class HttpServletMxTest {
     }
 
     @Test
-    public void testGetBigDecimalParameter() {
+    void testGetBigDecimalParameter() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setParameter("abc", "123");
 
@@ -177,7 +177,7 @@ public class HttpServletMxTest {
     }
 
     @Test
-    public void testGetBigDecimalParameter_defaultValue() {
+    void testGetBigDecimalParameter_defaultValue() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setParameter("abc", "123");
 
@@ -186,7 +186,7 @@ public class HttpServletMxTest {
     }
 
     @Test
-    public void testGetInstantParameter() {
+    void testGetInstantParameter() {
         LocalDateTime datetime = LocalDateTime.of(2011, 12, 1, 12, 13, 14);
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setParameter("abc", "2011-12-01T12:13:14Z");
@@ -196,7 +196,7 @@ public class HttpServletMxTest {
     }
 
     @Test
-    public void testGetLocalDateParameter() {
+    void testGetLocalDateParameter() {
         LocalDate date = LocalDate.of(2011, 12, 1);
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setParameter("abc", "2011-12-01");
@@ -206,7 +206,7 @@ public class HttpServletMxTest {
     }
 
     @Test
-    public void testGetLocalTimeParameter() {
+    void testGetLocalTimeParameter() {
         LocalTime time = LocalTime.of(12, 13, 14);
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setParameter("abc", "12:13:14");
@@ -216,7 +216,7 @@ public class HttpServletMxTest {
     }
 
     @Test
-    public void testGetLocalDateTimeParameter() {
+    void testGetLocalDateTimeParameter() {
         LocalDateTime datetime = LocalDateTime.of(2011, 12, 1, 12, 13, 14);
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setParameter("abc", "2011-12-01T12:13:14");
@@ -226,7 +226,7 @@ public class HttpServletMxTest {
     }
 
     @Test
-    public void testGetParameterMap() {
+    void testGetParameterMap() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addParameter("pre_a", "aa");
         request.addParameter("pre_b", "bb");
@@ -240,7 +240,7 @@ public class HttpServletMxTest {
     }
 
     @Test
-    public void testGetPageable() {
+    void testGetPageable() {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.addParameter("a", "1");
         request.addParameter("b", "2");

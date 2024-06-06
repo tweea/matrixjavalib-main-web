@@ -12,9 +12,9 @@ import com.google.common.collect.Maps;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class HttpMxTest {
+class HttpMxTest {
     @Test
-    public void testBuildQueryString() {
+    void testBuildQueryString() {
         Map<String, Object> params = Maps.newLinkedHashMap();
         params.put("name", "foo");
         params.put("age", 1);
@@ -25,7 +25,7 @@ public class HttpMxTest {
     }
 
     @Test
-    public void testBuildBasicAuthorizationHeader() {
+    void testBuildBasicAuthorizationHeader() {
         String header = HttpMx.buildBasicAuthorizationHeader("a", "b");
         assertThat(header).startsWith("Basic");
     }

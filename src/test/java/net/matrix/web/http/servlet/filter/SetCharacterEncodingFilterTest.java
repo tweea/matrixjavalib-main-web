@@ -16,9 +16,9 @@ import org.springframework.mock.web.MockHttpServletResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class SetCharacterEncodingFilterTest {
+class SetCharacterEncodingFilterTest {
     @Test
-    public void testInit()
+    void testInit()
         throws ServletException {
         MockFilterConfig filterConfig = new MockFilterConfig();
         filterConfig.addInitParameter("encoding", "test");
@@ -31,7 +31,7 @@ public class SetCharacterEncodingFilterTest {
     }
 
     @Test
-    public void testDoFilter()
+    void testDoFilter()
         throws ServletException, IOException {
         MockFilterConfig filterConfig = new MockFilterConfig();
         filterConfig.addInitParameter("encoding", "test");
