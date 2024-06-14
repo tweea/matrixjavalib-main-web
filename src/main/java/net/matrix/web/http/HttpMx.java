@@ -8,12 +8,16 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+import javax.annotation.Nonnull;
+import javax.annotation.concurrent.ThreadSafe;
+
 import static net.matrix.data.convert.BinaryStringConverter.BASE64;
 import static net.matrix.data.convert.BinaryStringConverter.UTF8;
 
 /**
  * HTTP 协议工具。
  */
+@ThreadSafe
 public final class HttpMx {
     /**
      * 阻止实例化。
@@ -28,7 +32,8 @@ public final class HttpMx {
      *     参数。
      * @return 查询字符串。
      */
-    public static String buildQueryString(Map<String, Object> params) {
+    @Nonnull
+    public static String buildQueryString(@Nonnull Map<String, Object> params) {
         StringBuilder sb = new StringBuilder();
 
         for (Map.Entry<String, Object> param : params.entrySet()) {
@@ -57,7 +62,8 @@ public final class HttpMx {
      *     密码。
      * @return 请求头。
      */
-    public static String buildBasicAuthorizationHeader(String username, String password) {
+    @Nonnull
+    public static String buildBasicAuthorizationHeader(@Nonnull String username, @Nonnull String password) {
         String plain = username + ':' + password;
         return "Basic " + BASE64.toString(UTF8.toBinary(plain));
     }

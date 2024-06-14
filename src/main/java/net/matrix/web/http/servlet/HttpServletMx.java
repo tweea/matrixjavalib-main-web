@@ -15,6 +15,9 @@ import java.time.LocalTime;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.ThreadSafe;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,6 +33,7 @@ import net.matrix.java.time.DateTimeFormatterMx;
 /**
  * HTTP 协议的 Servlet 工具。
  */
+@ThreadSafe
 public final class HttpServletMx {
     /**
      * 阻止实例化。
@@ -44,7 +48,8 @@ public final class HttpServletMx {
      *     HTTP 请求。
      * @return 客户端 User-Agent 请求头。
      */
-    public static String getUserAgentHeader(HttpServletRequest request) {
+    @Nullable
+    public static String getUserAgentHeader(@Nonnull HttpServletRequest request) {
         return request.getHeader(HttpHeaders.USER_AGENT);
     }
 
@@ -56,7 +61,7 @@ public final class HttpServletMx {
      * @param expiresInSecond
      *     过期时间。
      */
-    public static void setExpiresHeader(HttpServletResponse response, long expiresInSecond) {
+    public static void setExpiresHeader(@Nonnull HttpServletResponse response, long expiresInSecond) {
         // HTTP 1.0 header, set a fix expires date.
         response.setDateHeader(HttpHeaders.EXPIRES, System.currentTimeMillis() + expiresInSecond * 1000);
         // HTTP 1.1 header, set a time after now.
@@ -69,7 +74,7 @@ public final class HttpServletMx {
      * @param response
      *     HTTP 响应。
      */
-    public static void setNoCacheHeader(HttpServletResponse response) {
+    public static void setNoCacheHeader(@Nonnull HttpServletResponse response) {
         // HTTP 1.0 header
         response.setDateHeader(HttpHeaders.EXPIRES, 1L);
         response.addHeader(HttpHeaders.PRAGMA, "no-cache");
@@ -85,7 +90,7 @@ public final class HttpServletMx {
      * @param lastModified
      *     最后修改时间。
      */
-    public static void setLastModifiedHeader(HttpServletResponse response, long lastModified) {
+    public static void setLastModifiedHeader(@Nonnull HttpServletResponse response, long lastModified) {
         response.setDateHeader(HttpHeaders.LAST_MODIFIED, lastModified);
     }
 
@@ -101,7 +106,7 @@ public final class HttpServletMx {
      *     最后修改时间。
      * @return 是否已被修改。
      */
-    public static boolean checkIfModifiedSince(HttpServletRequest request, HttpServletResponse response, long lastModified) {
+    public static boolean checkIfModifiedSince(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, long lastModified) {
         long ifModifiedSince = request.getDateHeader(HttpHeaders.IF_MODIFIED_SINCE);
         if (ifModifiedSince == -1 || lastModified >= ifModifiedSince + 1000) {
             return true;
@@ -119,7 +124,7 @@ public final class HttpServletMx {
      * @param etag
      *     资源的 ETag。
      */
-    public static void setEtagHeader(HttpServletResponse response, String etag) {
+    public static void setEtagHeader(@Nonnull HttpServletResponse response, @Nonnull String etag) {
         response.setHeader(HttpHeaders.ETAG, etag);
     }
 
@@ -135,7 +140,7 @@ public final class HttpServletMx {
      *     资源的 ETag。
      * @return 是否已失效。
      */
-    public static boolean checkIfNoneMatchEtag(HttpServletRequest request, HttpServletResponse response, String etag) {
+    public static boolean checkIfNoneMatchEtag(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull String etag) {
         String ifNoneMatch = request.getHeader(HttpHeaders.IF_NONE_MATCH);
         boolean matched;
         if (ifNoneMatch == null) {
@@ -170,7 +175,7 @@ public final class HttpServletMx {
      * @param filename
      *     文件名。
      */
-    public static void setFilenameHeader(HttpServletResponse response, String filename) {
+    public static void setFilenameHeader(@Nonnull HttpServletResponse response, @Nonnull String filename) {
         // 中文文件名支持
         String encodedFilename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFilename + '\"');
@@ -185,7 +190,8 @@ public final class HttpServletMx {
      *     参数名。
      * @return 参数值。
      */
-    public static String getParameter(HttpServletRequest request, String name) {
+    @Nullable
+    public static String getParameter(@Nonnull HttpServletRequest request, @Nonnull String name) {
         return getParameter(request, name, null);
     }
 
@@ -200,7 +206,8 @@ public final class HttpServletMx {
      *     默认值。
      * @return 参数值。
      */
-    public static String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    @Nullable
+    public static String getParameter(@Nonnull HttpServletRequest request, @Nonnull String name, @Nullable String defaultValue) {
         String value = request.getParameter(name);
         if (value == null) {
             return defaultValue;
@@ -218,7 +225,8 @@ public final class HttpServletMx {
      *     参数名。
      * @return 参数值。
      */
-    public static Integer getIntegerParameter(HttpServletRequest request, String name) {
+    @Nullable
+    public static Integer getIntegerParameter(@Nonnull HttpServletRequest request, @Nonnull String name) {
         return getIntegerParameter(request, name, null);
     }
 
@@ -233,7 +241,8 @@ public final class HttpServletMx {
      *     默认值。
      * @return 参数值。
      */
-    public static Integer getIntegerParameter(HttpServletRequest request, String name, Integer defaultValue) {
+    @Nullable
+    public static Integer getIntegerParameter(@Nonnull HttpServletRequest request, @Nonnull String name, @Nullable Integer defaultValue) {
         String value = request.getParameter(name);
         if (StringUtils.isBlank(value)) {
             return defaultValue;
@@ -251,7 +260,8 @@ public final class HttpServletMx {
      *     参数名。
      * @return 参数值。
      */
-    public static Long getLongParameter(HttpServletRequest request, String name) {
+    @Nullable
+    public static Long getLongParameter(@Nonnull HttpServletRequest request, @Nonnull String name) {
         return getLongParameter(request, name, null);
     }
 
@@ -266,7 +276,8 @@ public final class HttpServletMx {
      *     默认值。
      * @return 参数值。
      */
-    public static Long getLongParameter(HttpServletRequest request, String name, Long defaultValue) {
+    @Nullable
+    public static Long getLongParameter(@Nonnull HttpServletRequest request, @Nonnull String name, @Nullable Long defaultValue) {
         String value = request.getParameter(name);
         if (StringUtils.isBlank(value)) {
             return defaultValue;
@@ -284,7 +295,8 @@ public final class HttpServletMx {
      *     参数名。
      * @return 参数值。
      */
-    public static BigDecimal getBigDecimalParameter(HttpServletRequest request, String name) {
+    @Nullable
+    public static BigDecimal getBigDecimalParameter(@Nonnull HttpServletRequest request, @Nonnull String name) {
         return getBigDecimalParameter(request, name, null);
     }
 
@@ -299,7 +311,8 @@ public final class HttpServletMx {
      *     默认值。
      * @return 参数值。
      */
-    public static BigDecimal getBigDecimalParameter(HttpServletRequest request, String name, BigDecimal defaultValue) {
+    @Nullable
+    public static BigDecimal getBigDecimalParameter(@Nonnull HttpServletRequest request, @Nonnull String name, @Nullable BigDecimal defaultValue) {
         String value = request.getParameter(name);
         if (StringUtils.isBlank(value)) {
             return defaultValue;
@@ -319,7 +332,8 @@ public final class HttpServletMx {
      *     格式，形式见 {@link java.time.format.DateTimeFormatter}。
      * @return 参数值。
      */
-    public static Instant getInstantParameter(HttpServletRequest request, String name, String pattern) {
+    @Nullable
+    public static Instant getInstantParameter(@Nonnull HttpServletRequest request, @Nonnull String name, @Nonnull String pattern) {
         String value = request.getParameter(name);
         if (StringUtils.isBlank(value)) {
             return null;
@@ -339,7 +353,8 @@ public final class HttpServletMx {
      *     格式，形式见 {@link java.time.format.DateTimeFormatter}。
      * @return 参数值。
      */
-    public static LocalDate getLocalDateParameter(HttpServletRequest request, String name, String pattern) {
+    @Nullable
+    public static LocalDate getLocalDateParameter(@Nonnull HttpServletRequest request, @Nonnull String name, @Nonnull String pattern) {
         String value = request.getParameter(name);
         if (StringUtils.isBlank(value)) {
             return null;
@@ -359,7 +374,8 @@ public final class HttpServletMx {
      *     格式，形式见 {@link java.time.format.DateTimeFormatter}。
      * @return 参数值。
      */
-    public static LocalTime getLocalTimeParameter(HttpServletRequest request, String name, String pattern) {
+    @Nullable
+    public static LocalTime getLocalTimeParameter(@Nonnull HttpServletRequest request, @Nonnull String name, @Nonnull String pattern) {
         String value = request.getParameter(name);
         if (StringUtils.isBlank(value)) {
             return null;
@@ -379,7 +395,8 @@ public final class HttpServletMx {
      *     格式，形式见 {@link java.time.format.DateTimeFormatter}。
      * @return 参数值。
      */
-    public static LocalDateTime getLocalDateTimeParameter(HttpServletRequest request, String name, String pattern) {
+    @Nullable
+    public static LocalDateTime getLocalDateTimeParameter(@Nonnull HttpServletRequest request, @Nonnull String name, @Nonnull String pattern) {
         String value = request.getParameter(name);
         if (StringUtils.isBlank(value)) {
             return null;
@@ -395,7 +412,8 @@ public final class HttpServletMx {
      *     HTTP 请求。
      * @return 所有参数。
      */
-    public static Map<String, String> getParameterMap(HttpServletRequest request) {
+    @Nonnull
+    public static Map<String, String> getParameterMap(@Nonnull HttpServletRequest request) {
         Map<String, String[]> parameterMap = request.getParameterMap();
 
         Map<String, String> result = Maps.newLinkedHashMapWithExpectedSize(parameterMap.size());
@@ -419,7 +437,8 @@ public final class HttpServletMx {
      *     分页序号参数名。
      * @return 分页参数。
      */
-    public static Pageable getPageable(HttpServletRequest request, String pageSizeName, String pageNumberName) {
+    @Nonnull
+    public static Pageable getPageable(@Nonnull HttpServletRequest request, @Nonnull String pageSizeName, @Nonnull String pageNumberName) {
         int pageSize = getIntegerParameter(request, pageSizeName, 0);
         int pageNumber = getIntegerParameter(request, pageNumberName, 0);
 

@@ -6,6 +6,7 @@ package net.matrix.web.http.servlet.filter;
 
 import java.io.IOException;
 
+import javax.annotation.Nullable;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -45,6 +46,7 @@ public class SetCharacterEncodingFilter
      * The default character encoding to set for requests that pass through this
      * filter.
      */
+    @Nullable
     protected String encoding;
 
     /**

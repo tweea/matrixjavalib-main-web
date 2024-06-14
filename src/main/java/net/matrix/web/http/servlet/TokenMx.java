@@ -6,12 +6,16 @@ package net.matrix.web.http.servlet;
 
 import java.util.UUID;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.ThreadSafe;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
  * 在 HTTP 会话中设置唯一标识，判断 HTTP 请求是否有效。
  */
+@ThreadSafe
 public final class TokenMx {
     /**
      * 阻止实例化。
@@ -28,7 +32,8 @@ public final class TokenMx {
      *     键名。
      * @return 唯一标识。
      */
-    public static String generateToken(HttpServletRequest request, String key) {
+    @Nonnull
+    public static String generateToken(@Nonnull HttpServletRequest request, @Nonnull String key) {
         HttpSession session = request.getSession();
 
         String token = UUID.randomUUID().toString();
@@ -45,7 +50,8 @@ public final class TokenMx {
      *     键名。
      * @return 唯一标识。
      */
-    public static String getToken(HttpServletRequest request, String key) {
+    @Nullable
+    public static String getToken(@Nonnull HttpServletRequest request, @Nonnull String key) {
         HttpSession session = request.getSession(false);
         if (session == null) {
             return null;
@@ -63,7 +69,7 @@ public final class TokenMx {
      *     键名。
      * @return 是否有效。
      */
-    public static boolean checkToken(HttpServletRequest request, String key) {
+    public static boolean checkToken(@Nonnull HttpServletRequest request, @Nonnull String key) {
         HttpSession session = request.getSession(false);
         if (session == null) {
             return false;
@@ -86,7 +92,7 @@ public final class TokenMx {
      * @param key
      *     键名。
      */
-    public static void removeToken(HttpServletRequest request, String key) {
+    public static void removeToken(@Nonnull HttpServletRequest request, @Nonnull String key) {
         HttpSession session = request.getSession(false);
         if (session == null) {
             return;
