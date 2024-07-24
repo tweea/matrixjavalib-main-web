@@ -175,10 +175,24 @@ public final class HttpServletMx {
      * @param filename
      *     文件名。
      */
-    public static void setFilenameHeader(@Nonnull HttpServletResponse response, @Nonnull String filename) {
+    public static void setAttachmentFilenameHeader(@Nonnull HttpServletResponse response, @Nonnull String filename) {
         // 中文文件名支持
         String encodedFilename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFilename + '\"');
+    }
+
+    /**
+     * 设置客户端文件名响应头。
+     * 
+     * @param response
+     *     HTTP 响应。
+     * @param filename
+     *     文件名。
+     */
+    public static void setInlineFilenameHeader(@Nonnull HttpServletResponse response, @Nonnull String filename) {
+        // 中文文件名支持
+        String encodedFilename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + encodedFilename + '\"');
     }
 
     /**

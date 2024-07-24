@@ -106,11 +106,19 @@ class HttpServletMxTest {
     }
 
     @Test
-    void testSetFilenameHeader() {
+    void testSetAttachmentFilenameHeader() {
         MockHttpServletResponse response = new MockHttpServletResponse();
 
-        HttpServletMx.setFilenameHeader(response, "test");
-        assertThat(response.getHeader(HttpHeaders.CONTENT_DISPOSITION)).startsWith("attachment");
+        HttpServletMx.setAttachmentFilenameHeader(response, "test");
+        assertThat(response.getHeader(HttpHeaders.CONTENT_DISPOSITION)).startsWith("attachment;");
+    }
+
+    @Test
+    void testSetInlineFilenameHeader() {
+        MockHttpServletResponse response = new MockHttpServletResponse();
+
+        HttpServletMx.setInlineFilenameHeader(response, "test");
+        assertThat(response.getHeader(HttpHeaders.CONTENT_DISPOSITION)).startsWith("inline;");
     }
 
     @Test
