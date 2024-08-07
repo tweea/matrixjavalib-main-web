@@ -28,6 +28,7 @@ import org.springframework.data.domain.Pageable;
 import com.google.common.collect.Maps;
 import com.google.common.net.HttpHeaders;
 
+import net.matrix.java.lang.NumberMx;
 import net.matrix.java.time.DateTimeFormatterMx;
 
 /**
@@ -258,11 +259,7 @@ public final class HttpServletMx {
     @Nullable
     public static Integer getIntegerParameter(@Nonnull HttpServletRequest request, @Nonnull String name, @Nullable Integer defaultValue) {
         String value = request.getParameter(name);
-        if (StringUtils.isBlank(value)) {
-            return defaultValue;
-        }
-
-        return Integer.valueOf(value);
+        return NumberMx.parseInteger(value, defaultValue);
     }
 
     /**
@@ -293,11 +290,7 @@ public final class HttpServletMx {
     @Nullable
     public static Long getLongParameter(@Nonnull HttpServletRequest request, @Nonnull String name, @Nullable Long defaultValue) {
         String value = request.getParameter(name);
-        if (StringUtils.isBlank(value)) {
-            return defaultValue;
-        }
-
-        return Long.valueOf(value);
+        return NumberMx.parseLong(value, defaultValue);
     }
 
     /**
@@ -328,11 +321,7 @@ public final class HttpServletMx {
     @Nullable
     public static BigDecimal getBigDecimalParameter(@Nonnull HttpServletRequest request, @Nonnull String name, @Nullable BigDecimal defaultValue) {
         String value = request.getParameter(name);
-        if (StringUtils.isBlank(value)) {
-            return defaultValue;
-        }
-
-        return new BigDecimal(value);
+        return NumberMx.parseBigDecimal(value, defaultValue);
     }
 
     /**
