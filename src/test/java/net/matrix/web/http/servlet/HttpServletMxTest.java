@@ -257,4 +257,28 @@ class HttpServletMxTest {
         assertThat(pageable.getPageSize()).isEqualTo(1);
         assertThat(pageable.getPageNumber()).isEqualTo(2);
     }
+
+    @Test
+    void testGetHeaderOrParameter() {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.addHeader("abc", "test");
+        request.setParameter("abc", "123");
+        request.setParameter("def", "456");
+
+        assertThat(HttpServletMx.getHeaderOrParameter(request, "abc")).isEqualTo("test");
+        assertThat(HttpServletMx.getHeaderOrParameter(request, "def")).isEqualTo("456");
+        assertThat(HttpServletMx.getHeaderOrParameter(request, "xyz")).isNull();
+    }
+
+    @Test
+    void testGetHeaderOrParameter_defaultValue() {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.addHeader("abc", "test");
+        request.setParameter("abc", "123");
+        request.setParameter("def", "456");
+
+        assertThat(HttpServletMx.getHeaderOrParameter(request, "abc", "456")).isEqualTo("test");
+        assertThat(HttpServletMx.getHeaderOrParameter(request, "def", "123")).isEqualTo("456");
+        assertThat(HttpServletMx.getHeaderOrParameter(request, "xyz", "456")).isEqualTo("456");
+    }
 }

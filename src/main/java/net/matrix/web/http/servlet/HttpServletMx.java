@@ -451,4 +451,42 @@ public final class HttpServletMx {
 
         return PageRequest.of(pageNumber, pageSize);
     }
+
+    /**
+     * 获取请求头，如果请求头内容为空，改为获取同名字符串类型请求参数。
+     * 
+     * @param request
+     *     HTTP 请求。
+     * @param name
+     *     请求头/参数名。
+     * @return 请求头/参数值。
+     */
+    @Nullable
+    public static String getHeaderOrParameter(@Nonnull HttpServletRequest request, @Nonnull String name) {
+        return getHeaderOrParameter(request, name, null);
+    }
+
+    /**
+     * 获取请求头，如果请求头内容为空，改为获取同名字符串类型请求参数。
+     * 
+     * @param request
+     *     HTTP 请求。
+     * @param name
+     *     请求头/参数名。
+     * @param defaultValue
+     *     默认值。
+     * @return 请求头/参数值。
+     */
+    @Nullable
+    public static String getHeaderOrParameter(@Nonnull HttpServletRequest request, @Nonnull String name, @Nullable String defaultValue) {
+        String value = request.getHeader(name);
+        if (value == null) {
+            value = request.getParameter(name);
+        }
+        if (value == null) {
+            return defaultValue;
+        }
+
+        return URLDecoder.decode(value, StandardCharsets.UTF_8);
+    }
 }
