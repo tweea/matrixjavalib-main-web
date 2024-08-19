@@ -25,7 +25,7 @@ public final class TokenMx {
 
     /**
      * 生成唯一标识。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @param key
@@ -43,7 +43,7 @@ public final class TokenMx {
 
     /**
      * 获取已有唯一标识。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @param key
@@ -62,7 +62,7 @@ public final class TokenMx {
 
     /**
      * 判断唯一标识是否有效。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @param key
@@ -86,7 +86,7 @@ public final class TokenMx {
 
     /**
      * 删除唯一标识。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @param key

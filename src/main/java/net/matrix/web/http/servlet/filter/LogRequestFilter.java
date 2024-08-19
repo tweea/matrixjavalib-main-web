@@ -450,7 +450,7 @@ public class LogRequestFilter
 
         /**
          * 根据对象信息构造。
-         * 
+         *
          * @param obj
          *     对象
          */

@@ -28,7 +28,7 @@ public final class HtmlMx {
 
     /**
      * 将 HTML 文本扩展到指定长度。
-     * 
+     *
      * @param html
      *     HTML 文本。
      * @param length

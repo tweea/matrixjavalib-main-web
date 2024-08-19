@@ -27,7 +27,7 @@ public final class HttpMx {
 
     /**
      * 构造查询字符串。
-     * 
+     *
      * @param params
      *     参数。
      * @return 查询字符串。
@@ -55,7 +55,7 @@ public final class HttpMx {
 
     /**
      * 构造 Basic 认证请求头。
-     * 
+     *
      * @param username
      *     用户名。
      * @param password

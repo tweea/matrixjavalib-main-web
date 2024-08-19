@@ -37,7 +37,7 @@ import org.apache.commons.lang3.StringUtils;
  * characteristics of the incoming request (such as the values of the <code>Accept-Language</code>
  * and <code>User-Agent</code> headers, or a value stashed in the current user's session.
  * </p>
- * 
+ *
  * @author Craig McClanahan
  */
 public class SetCharacterEncodingFilter
@@ -56,7 +56,7 @@ public class SetCharacterEncodingFilter
 
     /**
      * Place this filter into service.
-     * 
+     *
      * @param filterConfig
      *     The filter configuration object.
      */
@@ -78,7 +78,7 @@ public class SetCharacterEncodingFilter
     /**
      * Select and set (if specified) the character encoding to be used to
      * interpret request parameters for this request.
-     * 
+     *
      * @param request
      *     The servlet request we are processing.
      * @param response
@@ -111,7 +111,7 @@ public class SetCharacterEncodingFilter
      * parameters. If no character encoding should be set, return <code>null</code>.<br>
      * The default implementation unconditionally returns the value configured by the
      * <strong>encoding</strong> initialization parameter for this filter.
-     * 
+     *
      * @param request
      *     The servlet request we are processing.
      */

@@ -44,7 +44,7 @@ public final class HttpServletMx {
 
     /**
      * 获取客户端 User-Agent 请求头。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @return 客户端 User-Agent 请求头。
@@ -56,7 +56,7 @@ public final class HttpServletMx {
 
     /**
      * 设置客户端缓存过期时间响应头。
-     * 
+     *
      * @param response
      *     HTTP 响应。
      * @param expiresInSecond
@@ -71,7 +71,7 @@ public final class HttpServletMx {
 
     /**
      * 设置客户端禁用缓存响应头。
-     * 
+     *
      * @param response
      *     HTTP 响应。
      */
@@ -85,7 +85,7 @@ public final class HttpServletMx {
 
     /**
      * 设置客户端 Last-Modified 响应头。
-     * 
+     *
      * @param response
      *     HTTP 响应。
      * @param lastModified
@@ -98,7 +98,7 @@ public final class HttpServletMx {
     /**
      * 根据客户端 If-Modified-Since 请求头，计算请求对应的资源是否已被修改。
      * 如果未被修改，返回 false，设置响应状态码为 304。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @param response
@@ -119,7 +119,7 @@ public final class HttpServletMx {
 
     /**
      * 设置客户端 ETag 响应头。
-     * 
+     *
      * @param response
      *     HTTP 响应。
      * @param etag
@@ -132,7 +132,7 @@ public final class HttpServletMx {
     /**
      * 根据客户端 If-None-Match 请求头，计算请求对应的资源 ETag 是否已失效。
      * 如果 ETag 未失效，返回 false，设置响应状态码为 304。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @param response
@@ -170,7 +170,7 @@ public final class HttpServletMx {
 
     /**
      * 设置客户端文件名响应头。
-     * 
+     *
      * @param response
      *     HTTP 响应。
      * @param filename
@@ -184,7 +184,7 @@ public final class HttpServletMx {
 
     /**
      * 设置客户端文件名响应头。
-     * 
+     *
      * @param response
      *     HTTP 响应。
      * @param filename
@@ -198,7 +198,7 @@ public final class HttpServletMx {
 
     /**
      * 获取字符串类型请求参数。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @param name
@@ -212,7 +212,7 @@ public final class HttpServletMx {
 
     /**
      * 获取字符串类型请求参数。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @param name
@@ -233,7 +233,7 @@ public final class HttpServletMx {
 
     /**
      * 获取整型请求参数。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @param name
@@ -247,7 +247,7 @@ public final class HttpServletMx {
 
     /**
      * 获取整型请求参数。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @param name
@@ -264,7 +264,7 @@ public final class HttpServletMx {
 
     /**
      * 获取长整型请求参数。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @param name
@@ -278,7 +278,7 @@ public final class HttpServletMx {
 
     /**
      * 获取长整型请求参数。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @param name
@@ -295,7 +295,7 @@ public final class HttpServletMx {
 
     /**
      * 获取十进制数值类型请求参数。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @param name
@@ -309,7 +309,7 @@ public final class HttpServletMx {
 
     /**
      * 获取十进制数值类型请求参数。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @param name
@@ -326,7 +326,7 @@ public final class HttpServletMx {
 
     /**
      * 获取时刻类型请求参数。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @param name
@@ -347,7 +347,7 @@ public final class HttpServletMx {
 
     /**
      * 获取本地日期类型请求参数。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @param name
@@ -368,7 +368,7 @@ public final class HttpServletMx {
 
     /**
      * 获取本地时间类型请求参数。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @param name
@@ -389,7 +389,7 @@ public final class HttpServletMx {
 
     /**
      * 获取本地日期时间类型请求参数。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @param name
@@ -410,7 +410,7 @@ public final class HttpServletMx {
 
     /**
      * 获取字符串类型的所有请求参数。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @return 所有参数。
@@ -431,7 +431,7 @@ public final class HttpServletMx {
 
     /**
      * 获取分页请求参数。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @param pageSizeName
@@ -454,7 +454,7 @@ public final class HttpServletMx {
 
     /**
      * 获取请求头，如果请求头内容为空，改为获取同名字符串类型请求参数。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @param name
@@ -468,7 +468,7 @@ public final class HttpServletMx {
 
     /**
      * 获取请求头，如果请求头内容为空，改为获取同名字符串类型请求参数。
-     * 
+     *
      * @param request
      *     HTTP 请求。
      * @param name
