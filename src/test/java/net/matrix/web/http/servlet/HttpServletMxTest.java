@@ -43,7 +43,7 @@ class HttpServletMxTest {
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         HttpServletMx.setExpiresHeader(response, 1);
-        assertThat(response.getDateHeader(HttpHeaders.EXPIRES)).isGreaterThan(0);
+        assertThat(response.getDateHeader(HttpHeaders.EXPIRES)).isPositive();
         assertThat(response.getHeader(HttpHeaders.CACHE_CONTROL)).startsWith("private");
     }
 
@@ -52,7 +52,7 @@ class HttpServletMxTest {
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         HttpServletMx.setNoCacheHeader(response);
-        assertThat(response.getDateHeader(HttpHeaders.EXPIRES)).isEqualTo(0);
+        assertThat(response.getDateHeader(HttpHeaders.EXPIRES)).isZero();
         assertThat(response.getHeader(HttpHeaders.PRAGMA)).startsWith("no-cache");
         assertThat(response.getHeader(HttpHeaders.CACHE_CONTROL)).startsWith("no-cache");
     }
@@ -62,7 +62,7 @@ class HttpServletMxTest {
         MockHttpServletResponse response = new MockHttpServletResponse();
 
         HttpServletMx.setLastModifiedHeader(response, System.currentTimeMillis());
-        assertThat(response.getDateHeader(HttpHeaders.LAST_MODIFIED)).isGreaterThan(0);
+        assertThat(response.getDateHeader(HttpHeaders.LAST_MODIFIED)).isPositive();
     }
 
     @Test

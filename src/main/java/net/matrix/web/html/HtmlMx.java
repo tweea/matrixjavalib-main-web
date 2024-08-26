@@ -49,7 +49,7 @@ public final class HtmlMx {
         int expandLength = length - htmlLength;
         StringBuilder sb = new StringBuilder(htmlLength + expandLength * SPACE.length());
         sb.append(html);
-        for (int i = 0; i < expandLength; i++) {
+        for (int i = 0; i < expandLength; ++i) {
             sb.append(SPACE);
         }
         return sb.toString();

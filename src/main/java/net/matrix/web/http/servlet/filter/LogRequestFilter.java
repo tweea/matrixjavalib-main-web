@@ -114,7 +114,7 @@ public class LogRequestFilter
     private void dumpRequest(HttpServletRequest request, PrintWriter writer)
         throws IOException, ServletException {
         // request properties
-        Map<String, String> properties = new LinkedHashMap<>();
+        Map<String, String> properties = Maps.newLinkedHashMapWithExpectedSize(23);
         properties.put("CharacterEncoding", request.getCharacterEncoding());
         properties.put("ContentLength", Long.toString(request.getContentLengthLong()));
         properties.put("ContentType", request.getContentType());
@@ -328,13 +328,13 @@ public class LogRequestFilter
                 writer.print('|');
                 int linNum = item.getValue().length() / maxLength;
                 if (item.getValue().length() % maxLength != 0) {
-                    linNum++;
+                    ++linNum;
                 }
                 if (linNum == 0) {
                     printChar(writer, ' ', maxValueLen);
                     writer.println('|');
                 }
-                for (int i = 0; i < linNum; i++) {
+                for (int i = 0; i < linNum; ++i) {
                     if (i < linNum - 1) {
                         writer.append(item.getValue(), i * maxLength, (i + 1) * maxLength);
                         writer.println('|');
@@ -361,7 +361,7 @@ public class LogRequestFilter
     }
 
     private void dumpObjectMap(PrintWriter writer, String title, Map<String, Object> objMap) {
-        Map<String, ClassAndToString> map = new LinkedHashMap<>();
+        Map<String, ClassAndToString> map = Maps.newLinkedHashMapWithExpectedSize(objMap.size());
         for (Map.Entry<String, Object> item : objMap.entrySet()) {
             map.put(item.getKey(), new ClassAndToString(item.getValue()));
         }
@@ -415,13 +415,13 @@ public class LogRequestFilter
                 writer.println('|');
                 int linNum = item.getValue().toString.length() / maxLength;
                 if (item.getValue().toString.length() % maxLength != 0) {
-                    linNum++;
+                    ++linNum;
                 }
                 if (linNum == 0) {
                     printChar(writer, ' ', maxValueLen);
                     writer.println('|');
                 }
-                for (int i = 0; i < linNum; i++) {
+                for (int i = 0; i < linNum; ++i) {
                     writer.print('|');
                     if (i < linNum - 1) {
                         writer.append(item.getValue().toString, i * maxLength, (i + 1) * maxLength);
@@ -470,7 +470,7 @@ public class LogRequestFilter
     }
 
     private static void printChar(PrintWriter writer, char ch, int repeat) {
-        for (int i = 0; i < repeat; i++) {
+        for (int i = 0; i < repeat; ++i) {
             writer.print(ch);
         }
     }
