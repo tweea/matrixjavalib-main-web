@@ -4,12 +4,14 @@
  */
 package net.matrix.web.http;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.ThreadSafe;
+
+import net.matrix.lang.ImpossibleException;
 
 import static net.matrix.data.convert.BinaryStringConverter.BASE64;
 import static net.matrix.data.convert.BinaryStringConverter.UTF8;
@@ -42,7 +44,7 @@ public final class HttpMx {
 
             sb.append(key).append('=');
             if (value != null) {
-                sb.append(URLEncoder.encode(value.toString(), StandardCharsets.UTF_8));
+                sb.append(encode(value.toString()));
             }
             sb.append('&');
         }
@@ -51,6 +53,15 @@ public final class HttpMx {
         }
 
         return sb.toString();
+    }
+
+    @Nonnull
+    private static String encode(@Nonnull String value) {
+        try {
+            return URLEncoder.encode(value, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new ImpossibleException(e);
+        }
     }
 
     /**

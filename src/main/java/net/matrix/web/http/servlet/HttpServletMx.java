@@ -4,10 +4,10 @@
  */
 package net.matrix.web.http.servlet;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,6 +30,7 @@ import com.google.common.net.HttpHeaders;
 
 import net.matrix.java.lang.NumberMx;
 import net.matrix.java.time.DateTimeFormatterMx;
+import net.matrix.lang.ImpossibleException;
 
 /**
  * HTTP 协议的 Servlet 工具。
@@ -178,7 +179,7 @@ public final class HttpServletMx {
      */
     public static void setAttachmentFilenameHeader(@Nonnull HttpServletResponse response, @Nonnull String filename) {
         // 中文文件名支持
-        String encodedFilename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
+        String encodedFilename = encode(filename);
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + encodedFilename + '\"');
     }
 
@@ -192,7 +193,7 @@ public final class HttpServletMx {
      */
     public static void setInlineFilenameHeader(@Nonnull HttpServletResponse response, @Nonnull String filename) {
         // 中文文件名支持
-        String encodedFilename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
+        String encodedFilename = encode(filename);
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + encodedFilename + '\"');
     }
 
@@ -228,7 +229,7 @@ public final class HttpServletMx {
             return defaultValue;
         }
 
-        return URLDecoder.decode(value, StandardCharsets.UTF_8);
+        return decode(value);
     }
 
     /**
@@ -424,7 +425,7 @@ public final class HttpServletMx {
             String key = parameterEntry.getKey();
             String value = parameterEntry.getValue()[0];
 
-            result.put(key, URLDecoder.decode(value, StandardCharsets.UTF_8));
+            result.put(key, decode(value));
         }
         return result;
     }
@@ -487,6 +488,24 @@ public final class HttpServletMx {
             return defaultValue;
         }
 
-        return URLDecoder.decode(value, StandardCharsets.UTF_8);
+        return decode(value);
+    }
+
+    @Nonnull
+    private static String encode(@Nonnull String value) {
+        try {
+            return URLEncoder.encode(value, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new ImpossibleException(e);
+        }
+    }
+
+    @Nonnull
+    private static String decode(@Nonnull String value) {
+        try {
+            return URLDecoder.decode(value, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new ImpossibleException(e);
+        }
     }
 }
