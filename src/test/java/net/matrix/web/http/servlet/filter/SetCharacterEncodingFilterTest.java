@@ -6,7 +6,7 @@ package net.matrix.web.http.servlet.filter;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockFilterChain;

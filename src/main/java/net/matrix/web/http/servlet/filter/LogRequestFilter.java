@@ -15,17 +15,17 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 
 import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.lang3.ObjectUtils;
@@ -195,14 +195,12 @@ public class LogRequestFilter
 
     private void dumpCookie(Cookie cookie, PrintWriter writer) {
         Map<String, String> properties = new LinkedHashMap<>();
-        properties.put("Comment", cookie.getComment());
         properties.put("Domain", cookie.getDomain());
         properties.put("MaxAge", Integer.toString(cookie.getMaxAge()));
         properties.put("Path", cookie.getPath());
         properties.put("Secure", Boolean.toString(cookie.getSecure()));
         properties.put("Name", cookie.getName());
         properties.put("Value", cookie.getValue());
-        properties.put("Version", Integer.toString(cookie.getVersion()));
         properties.put("HttpOnly", Boolean.toString(cookie.isHttpOnly()));
         dumpStringMap(writer, "Cookie: " + cookie, properties);
     }

@@ -6,7 +6,7 @@ package net.matrix.web.http.servlet.filter;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 
 import org.assertj.core.util.introspection.FieldSupport;
 import org.junit.jupiter.api.Test;
